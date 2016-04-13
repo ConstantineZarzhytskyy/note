@@ -11,6 +11,7 @@
         'Note.menu',
         'Note.auth',
         'Note.notes',
+        'Note.note',
         'Note.folders'
       ]);
 })();

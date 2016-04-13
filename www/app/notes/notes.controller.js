@@ -7,14 +7,14 @@
       .controller('NotesController', NotesController);
 
   NotesController.$inject = [
-    '$scope', '$rootScope',
+    '$scope', '$rootScope', '$state',
     '$ionicModal',
-    'NoteUtils'
+    'NotesUtils'
   ];
 
-  function NotesController($scope, $rootScope,
+  function NotesController($scope, $rootScope, $state,
                            $ionicModal,
-                           NoteUtils) {
+                           NotesUtils) {
     $scope.notes = [];
     $scope.loadingNotes = true;
 
@@ -22,7 +22,7 @@
     function getNotes() {
       $scope.loadingNotes = true;
 
-      NoteUtils.getNotes()
+      NotesUtils.getNotes()
           .then(function (ok) {
             $scope.notes = ok;
 
@@ -52,7 +52,7 @@
     };
 
     $scope.saveNote = function (note) {
-      NoteUtils.createNote(note)
+      NotesUtils.createNote(note)
           .then(function () {
             $scope.newNoteDialog.hide();
 
@@ -60,6 +60,10 @@
           }, function (err) {
             console.log(err);
           });
+    };
+
+    $scope.getNoteInfo = function (note) {
+      $state.go('app.note', { noteId: note._id });
     };
   }
 })();

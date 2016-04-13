@@ -4,14 +4,14 @@
 
   angular
       .module('Note.notes')
-      .factory('NoteUtils', NoteUtils);
+      .factory('NotesUtils', NotesUtils);
 
-  NoteUtils.$inject = [
+  NotesUtils.$inject = [
     '$q', '$http',
     'server_host'
   ];
 
-  function NoteUtils($q, $http,
+  function NotesUtils($q, $http,
                           server_host) {
     var service = {
       getNotes: getNotes,

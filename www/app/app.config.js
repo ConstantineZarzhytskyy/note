@@ -38,6 +38,15 @@
             }
           }
         })
+        .state('app.note', {
+          url: "/:noteId",
+          views: {
+            'menuContent': {
+              templateUrl: "./app/note/note.html",
+              controller: 'NoteController'
+            }
+          }
+        })
         .state('app.folders', {
           url: "/folders",
           views: {

@@ -2,7 +2,7 @@
   <ion-content>
     <div class="card"
          ng-repeat="note in notes track by $index">
-      <div class="item item-divider">
+      <div class="item item-divider" ng-click="getNoteInfo(note)">
         {{ note.title }}
       </div>
       <div class="item item-text-wrap">
