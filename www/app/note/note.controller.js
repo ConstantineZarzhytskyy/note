@@ -7,13 +7,13 @@
       .controller('NoteController', NoteController);
 
   NoteController.$inject = [
-    '$scope', '$stateParams',
-    '$ionicModal',
+    '$scope', '$stateParams', '$state',
+    '$ionicModal', '$cordovaDialogs',
     'NoteUtils'
   ];
 
-  function NoteController($scope, $stateParams,
-                          $ionicModal,
+  function NoteController($scope, $stateParams, $state,
+                          $ionicModal, $cordovaDialogs,
                           NoteUtils) {
     var noteId = $stateParams.noteId;
 
@@ -50,6 +50,21 @@
             $scope.updateNoteDialog.hide();
           }, function (err) {
             console.log(err);
+          });
+    };
+
+    $scope.removeNote = function () {
+      $cordovaDialogs.confirm('Are you want to remove note: ' + $scope.note.title + '?', 'Remove note', [ 'Remove', 'Cancel' ])
+          .then(function(buttonIndex) {
+            if (buttonIndex != 1) { return; }
+
+            NoteUtils.removeNote($scope.note._id)
+                .then(function (ok) {
+                  $state.go('app.notes');
+                }, function (err) {
+                  console.log(err);
+                });
+
           });
     };
   }
