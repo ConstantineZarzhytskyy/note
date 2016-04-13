@@ -1,0 +1,51 @@
+<ion-view view-title="Notes">
+  <ion-content>
+    <div class="card"
+         ng-repeat="note in notes track by $index">
+      <div class="item item-divider">
+        {{ note.title }}
+      </div>
+      <div class="item item-text-wrap">
+        {{ note.description }}
+      </div>
+    </div>
+  </ion-content>
+  <ion-footer-bar>
+    <a class="button button-icon icon ion-ios-plus-empty"
+       ng-click="openNewNoteDialog()">
+      Create note
+    </a>
+  </ion-footer-bar>
+</ion-view>
+
+
+
+<script id="note-modal.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <button class="button button-icon icon ion-ios-arrow-left"
+              ng-click="closeNewNoteDialog()"></button>
+      <div class="h1 title">New note</div>
+      </div>
+    </ion-header-bar>
+    <ion-content>
+      <form>
+        <div class="list">
+          <label class="item item-input item-floating-label">
+            <span class="input-label">Title</span>
+            <input type="text" placeholder="ToDo"
+                   ng-model="newNote.title">
+          </label>
+          <label class="item item-input item-floating-label">
+            <span class="input-label">Description</span>
+            <input type="text" placeholder="Short description"
+                   ng-model="newNote.description">
+          </label>
+        </div>
+        <button class="button button-clear button-positive"
+                ng-click="saveNote(newNote)">Save
+        </button>
+      </form>
+    </ion-content>
+  </ion-modal-view>
+</script>

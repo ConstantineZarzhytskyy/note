@@ -1,0 +1,35 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <a class="button icon-left ion-chevron-left button-clear button-dark"
+        ng-click="closeAuthModal()">Back</a>
+    <h1 class="title">Log in</h1>
+  </ion-header-bar>
+  <ion-content>
+    <form>
+      <div class="list">
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Email</span>
+          <input type="email" placeholder="myEmail@example.com"
+                 ng-model="user.email">
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Password</span>
+          <input type="password" placeholder="password"
+                 ng-model="user.password">
+        </label>
+      </div>
+      <ion-spinner icon="spiral"
+                   ng-if="loading"></ion-spinner>
+      <button class="button button-block button-positive"
+              ng-click="login(user)"
+              ng-if="!loading">
+        Log In
+      </button>
+      <button class="button button-block button-positive"
+              ng-click="register(user)"
+              ng-if="!loading">
+        Sign up
+      </button>
+    </form>
+  </ion-content>
+</ion-modal-view>

@@ -1,0 +1,42 @@
+<ion-view view-title="Folders">
+  <ion-content>
+    <div class="card">
+      <div class="item item-text-wrap"
+           ng-repeat="folder in folders track by $index">
+        {{ folder.title }}
+      </div>
+    </div>
+  </ion-content>
+  <ion-footer-bar>
+    <a class="button button-icon icon ion-ios-plus-empty"
+       ng-click="openFolderDialog()">
+      Create folder
+    </a>
+  </ion-footer-bar>
+</ion-view>
+
+
+<script id="folder-modal.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <button class="button button-icon icon ion-ios-arrow-left"
+              ng-click="closeFolderDialog()"></button>
+      <div class="h1 title">New folder</div>
+      </div>
+    </ion-header-bar>
+    <ion-content>
+      <form>
+        <div class="list">
+          <label class="item item-input item-floating-label">
+            <span class="input-label">Title</span>
+            <input type="text" placeholder="Task folder"
+                   ng-model="newFolder.title">
+          </label>
+        </div>
+        <button class="button button-clear button-positive"
+                ng-click="saveFolder(newFolder)">Save
+        </button>
+      </form>
+    </ion-content>
+  </ion-modal-view>
+</script>
