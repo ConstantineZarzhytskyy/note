@@ -9,16 +9,18 @@
   NotesController.$inject = [
     '$scope', '$rootScope', '$state',
     '$ionicModal',
-    'NotesUtils'
+    'NotesUtils', 'FoldersUtils'
   ];
 
   function NotesController($scope, $rootScope, $state,
                            $ionicModal,
-                           NotesUtils) {
+                           NotesUtils, FoldersUtils) {
     $scope.notes = [];
     $scope.loadingNotes = true;
 
     getNotes();
+    getFolders();
+
     function getNotes() {
       $scope.loadingNotes = true;
 
@@ -30,6 +32,17 @@
           }, function (err) {
             console.log(err);
           });
+    }
+
+    function getFolders() {
+      FoldersUtils.getFolders()
+          .then(function (folders) {
+            $scope.folders = folders;
+
+            console.log(folders);
+          }, function (err) {
+            console.log(err);
+          })
     }
 
     $ionicModal.fromTemplateUrl('note-modal.html', {
@@ -52,6 +65,7 @@
     };
 
     $scope.saveNote = function (note) {
+      console.log(note);
       NotesUtils.createNote(note)
           .then(function () {
             $scope.newNoteDialog.hide();
@@ -65,5 +79,9 @@
     $scope.getNoteInfo = function (note) {
       $state.go('app.note', { noteId: note._id });
     };
+
+    $scope.changeFolder = function (newNoteFolder, selectedFolder) {
+      newNoteFolder = selectedFolder;
+    }
   }
 })();

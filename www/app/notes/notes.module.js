@@ -3,6 +3,8 @@
   'use strict';
 
   angular
-      .module('Note.notes', []);
+      .module('Note.notes', [
+          'Note.folders'
+      ]);
 
 })();
