@@ -48,6 +48,10 @@
           }, function (err) {
             console.log(err);
           })
+    };
+
+    $scope.getFolderInfo = function (folder) {
+      $state.go('app.folder', { folderId: folder._id });
     }
   }
 })();

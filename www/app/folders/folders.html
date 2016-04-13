@@ -2,7 +2,8 @@
   <ion-content>
     <div class="card">
       <div class="item item-text-wrap"
-           ng-repeat="folder in folders track by $index">
+           ng-repeat="folder in folders track by $index"
+          ng-click="getFolderInfo(folder)">
         {{ folder.title }}
       </div>
     </div>

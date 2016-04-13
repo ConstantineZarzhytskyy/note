@@ -39,7 +39,7 @@
           }
         })
         .state('app.note', {
-          url: "/:noteId",
+          url: "/notes/:noteId",
           views: {
             'menuContent': {
               templateUrl: "./app/note/note.html",
@@ -53,6 +53,15 @@
             'menuContent': {
               templateUrl: "./app/folders/folders.html",
               controller: 'FoldersController'
+            }
+          }
+        })
+        .state('app.folder', {
+          url: "/folders/:folderId",
+          views: {
+            'menuContent': {
+              templateUrl: "./app/folder/folder.html",
+              controller: 'FolderController'
             }
           }
         });

@@ -12,6 +12,7 @@
         'Note.auth',
         'Note.notes',
         'Note.note',
-        'Note.folders'
+        'Note.folders',
+        'Note.folder'
       ]);
 })();
