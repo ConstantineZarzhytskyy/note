@@ -14,6 +14,7 @@
                        server_host) {
     var service = {
       getFolder: getFolder,
+      updateFolder: updateFolder,
       getNotes: getNotes
     };
 
@@ -21,6 +22,16 @@
       var defer = $q.defer();
 
       $http.get(server_host + 'api/folders/' + folderId)
+          .success(defer.resolve)
+          .error(defer.reject);
+
+      return defer.promise;
+    }
+
+    function updateFolder(folder) {
+      var defer = $q.defer();
+
+      $http.put(server_host + 'api/folders/' + folder._id, { folder: folder })
           .success(defer.resolve)
           .error(defer.reject);
 

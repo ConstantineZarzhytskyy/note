@@ -41,8 +41,32 @@
           });
     }
 
+    $ionicModal.fromTemplateUrl('update-folder-modal.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.updateFolderDialog = modal;
+    });
+
     $scope.getNoteInfo = function (note) {
       $state.go('app.note', { noteId: note._id });
     };
+
+    $scope.updateFolder = function () {
+      $scope.updateFolderDialog.show();
+    };
+
+    $scope.closeFolderDialog = function () {
+      $scope.updateFolderDialog.hide();
+    };
+
+    $scope.saveUpdate = function () {
+      FolderUtils.updateFolder($scope.folder)
+          .then(function (ok) {
+            $scope.updateFolderDialog.hide();
+          }, function (err) {
+            console.log(err);
+          })
+    }
   }
 })();
