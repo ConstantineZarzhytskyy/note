@@ -15,6 +15,7 @@
     var service = {
       getFolder: getFolder,
       updateFolder: updateFolder,
+      removeFolder: removeFolder,
       getNotes: getNotes
     };
 
@@ -32,6 +33,16 @@
       var defer = $q.defer();
 
       $http.put(server_host + 'api/folders/' + folder._id, { folder: folder })
+          .success(defer.resolve)
+          .error(defer.reject);
+
+      return defer.promise;
+    }
+
+    function removeFolder(folderId) {
+      var defer = $q.defer();
+
+      $http.delete(server_host + 'api/folders/' + folderId)
           .success(defer.resolve)
           .error(defer.reject);
 

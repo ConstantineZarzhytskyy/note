@@ -7,12 +7,12 @@
 
   FolderController.$inject = [
     '$scope', '$state', '$stateParams',
-    '$ionicModal',
+    '$ionicModal', '$cordovaDialogs',
     'FolderUtils'
   ];
 
   function FolderController($scope, $state, $stateParams,
-                             $ionicModal,
+                             $ionicModal, $cordovaDialogs,
                              FolderUtils) {
     var folderId = $stateParams.folderId;
 
@@ -67,6 +67,21 @@
           }, function (err) {
             console.log(err);
           })
+    };
+
+    $scope.removeFolder = function () {
+      $cordovaDialogs.confirm('Are you want to remove folder: ' + $scope.folder.title + '?', 'Remove folder', [ 'Remove', 'Cancel' ])
+          .then(function(buttonIndex) {
+            if (buttonIndex != 1) { return; }
+
+            FolderUtils.removeFolder($scope.folder._id)
+                .then(function (ok) {
+                  $state.go('app.folders');
+                }, function (err) {
+                  console.log(err);
+                });
+
+          });
     }
   }
 })();
