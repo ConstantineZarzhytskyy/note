@@ -1,8 +1,19 @@
 <ion-view view-title="{{ folder.title }}">
   <ion-content>
-    <div class="card">
+    <div class="row" ng-if="!notes.length">
+      <div class="col"></div>
+      <div class="col">
+        <div class="text-center">
+          <h5 style="text-align: center;">Empty folder</h5>
+        </div>
+      </div>
+      <div class="col"></div>
+    </div>
+    <div class="card"
+         ng-repeat="note in notes"
+         ng-click="getNoteInfo(note)">
       <div class="item item-text-wrap">
-        notes
+        {{ note.title }}
       </div>
     </div>
   </ion-content>
