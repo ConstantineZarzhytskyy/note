@@ -1,5 +1,9 @@
 <ion-view view-title="{{ note.title }}">
   <ion-content>
+    <ion-checkbox ng-model="note.done"
+        ng-click="changeDone()">
+      Done
+    </ion-checkbox>
     <div class="card">
       <div class="item item-text-wrap">
         {{ note.description }}

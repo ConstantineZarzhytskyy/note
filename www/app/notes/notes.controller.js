@@ -92,10 +92,11 @@
 
     $scope.closeNewNoteDialog = function () {
       $scope.newNoteDialog.hide();
-
+    };
+    
     $scope.closeSortNoteDialog = function () {
       $scope.sortNoteDialog.hide();
-    };    };
+    };
 
     $scope.saveNote = function (note) {
       console.log(note);

@@ -67,5 +67,14 @@
 
           });
     };
+
+    $scope.changeDone = function () {
+      NoteUtils.updateNote($scope.note)
+          .then(function (ok) {
+
+          }, function (err) {
+            console.log(err);
+          });
+    };
   }
 })();
