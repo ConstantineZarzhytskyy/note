@@ -49,12 +49,17 @@
     });
 
     $scope.creteMarker = function () {
-
       $state.go('app.map', {isNewMarker: true});
     };
 
     $scope.showMarker = function (marker) {
-      console.log(marker);
+      var params = {
+        markerTitle: marker.title,
+        markerLat: marker.lat,
+        markerLng: marker.lng
+      };
+
+      $state.go('app.map', params)
     }
   }
 })();

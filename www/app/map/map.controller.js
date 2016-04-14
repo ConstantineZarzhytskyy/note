@@ -16,6 +16,11 @@
     var map = new google.maps.Map(document.getElementById('map'), {zoom: 16});
     var marker;
     var isNewMarker = $stateParams.isNewMarker;
+    var showMarker = {
+      lat: $stateParams.markerLat,
+      lng: $stateParams.markerLng,
+      title: $stateParams.markerTitle
+    };
 
     init();
     function init() {
@@ -23,18 +28,25 @@
 
         map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
 
-        marker = new google.maps.Marker({
-          position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
-          map: map,
-          title: "My Location"
-        });
+        if (!showMarker.title) {
+          marker = new google.maps.Marker({
+            position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
+            map: map,
+            title: "My Location"
+          });
+        } else {
+          marker = new google.maps.Marker({
+            position: new google.maps.LatLng(showMarker.lat, showMarker.lng),
+            map: map,
+            title: showMarker.title
+          });
+        }
 
         $scope.map = map;
       });
     }
 
     google.maps.event.addListener(map, 'click', function (newMarker) {
-      console.log(isNewMarker);
       marker.setMap(null);
 
       marker = new google.maps.Marker({
@@ -44,7 +56,6 @@
       });
 
       if (isNewMarker) {
-        console.log(1);
         $rootScope.$broadcast('newMarkerCreated', marker);
 
         $state.go('app.markers');
