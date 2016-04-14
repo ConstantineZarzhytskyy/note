@@ -27,8 +27,8 @@
 
     $rootScope.$on('newMarkerCreated', function (event, marker) {
       var newMarker = {
-        lat: marker.position.lat,
-        lng: marker.position.lng
+        lat: marker.position.lat(),
+        lng: marker.position.lng()
       };
 
       $cordovaDialogs.prompt('Enter title for new marker', 'New marker', ['Save', 'Cancel'], 'Home')
