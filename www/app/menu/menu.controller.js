@@ -20,7 +20,7 @@
     $ionicModal.fromTemplateUrl('./app/auth/auth.html', {
       scope: $scope,
       animation: 'slide-in-up'
-    }).then(function(modal) {
+    }).then(function (modal) {
       $scope.authModal = modal;
     });
 
@@ -64,8 +64,15 @@
           }, function (err) {
             console.log(err);
           });
-    }
+    };
 
+    $scope.isNoteState = function () {
+      return $state.is('app.notes');
+    };
+
+    $scope.openSearchModal = function () {
+      $rootScope.$broadcast('openSearchNodal');
+    }
   }
 
 })();

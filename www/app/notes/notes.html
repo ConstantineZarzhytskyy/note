@@ -1,7 +1,7 @@
 <ion-view view-title="Notes">
   <ion-content>
     <div class="card"
-         ng-repeat="note in notes track by $index">
+         ng-repeat="note in notes | filter: search.title">
       <div class="item item-divider" ng-click="getNoteInfo(note)">
         {{ note.title }}
       </div>
@@ -26,7 +26,6 @@
       <button class="button button-icon icon ion-ios-arrow-left"
               ng-click="closeNewNoteDialog()"></button>
       <div class="h1 title">New note</div>
-      </div>
     </ion-header-bar>
     <ion-content>
       <form>
@@ -55,6 +54,31 @@
         </div>
         <button class="button button-clear button-positive"
                 ng-click="saveNote(newNote)">Save
+        </button>
+      </form>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="note-search.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <button class="button button-icon icon ion-ios-arrow-left"
+              ng-click="closeSearchNoteDialog()"></button>
+      <div class="h1 title">Search note</div>
+    </ion-header-bar>
+    <ion-content>
+      <form>
+        <div class="list">
+          <label class="item item-input item-floating-label">
+            <span class="input-label">Title</span>
+            <input type="text" placeholder="Note title"
+                   ng-model="searchNote.title">
+          </label>
+        </div>
+        <button class="button button-clear button-positive"
+                ng-click="searchNote(searchNote)">
+          Find
         </button>
       </form>
     </ion-content>

@@ -8,15 +8,18 @@
 
   NotesController.$inject = [
     '$scope', '$rootScope', '$state',
-    '$ionicModal',
+    '$ionicModal', '$cordovaDialogs',
     'NotesUtils', 'FoldersUtils'
   ];
 
   function NotesController($scope, $rootScope, $state,
-                           $ionicModal,
+                           $ionicModal, $cordovaDialogs,
                            NotesUtils, FoldersUtils) {
     $scope.notes = [];
     $scope.loadingNotes = true;
+    $scope.search = {
+      title: ''
+    };
 
     getNotes();
     getFolders();
@@ -54,6 +57,15 @@
 
     $rootScope.$on('loginInSystem', function (event, date) {
       getNotes();
+    });
+
+    $rootScope.$on('openSearchNodal', function (event, date) {
+      $cordovaDialogs.prompt('Enter search note title', 'Search note', ['Apply', 'Cancel'], $scope.search.title)
+          .then(function (result) {
+            if (result.buttonIndex != 1) { return $scope.search.title = ''; }
+
+            $scope.search.title = result.input1;
+          });
     });
 
     $scope.openNewNoteDialog = function () {
