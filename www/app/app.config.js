@@ -65,8 +65,17 @@
             }
           }
         })
+        .state('app.markers', {
+          url: "/markers",
+          views: {
+            'menuContent': {
+              templateUrl: "./app/markers/markers.html",
+              controller: 'MarkersController'
+            }
+          }
+        })
         .state('app.map', {
-          url: "/map",
+          url: "/map?isNewMarker",
           views: {
             'menuContent': {
               templateUrl: "./app/map/map.html",

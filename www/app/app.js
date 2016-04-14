@@ -14,6 +14,7 @@
         'Note.note',
         'Note.folders',
         'Note.folder',
-        'Note.map'
+        'Note.map',
+        'Note.markers'
       ]);
 })();

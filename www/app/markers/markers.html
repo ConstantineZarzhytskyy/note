@@ -1,0 +1,19 @@
+<ion-view view-title="Markers">
+  <ion-content>
+    <div ng-if="!markers.length">
+      Marker list is empty
+    </div>
+    <ion-list>
+      <ion-item ng-repeat="marker in markers"
+          ng-click="showMarker(marker)">
+        {{ marker.title }}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+  <ion-footer-bar>
+    <a class="button button-icon icon ion-ios-plus-empty"
+       ng-click="creteMarker()">
+      Create marker
+    </a>
+  </ion-footer-bar>
+</ion-view>
