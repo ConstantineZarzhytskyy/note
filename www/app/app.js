@@ -13,6 +13,7 @@
         'Note.notes',
         'Note.note',
         'Note.folders',
-        'Note.folder'
+        'Note.folder',
+        'Note.map'
       ]);
 })();

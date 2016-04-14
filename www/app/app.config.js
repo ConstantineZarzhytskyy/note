@@ -64,6 +64,15 @@
               controller: 'FolderController'
             }
           }
+        })
+        .state('app.map', {
+          url: "/map",
+          views: {
+            'menuContent': {
+              templateUrl: "./app/map/map.html",
+              controller: 'MapController'
+            }
+          }
         });
   }
 
