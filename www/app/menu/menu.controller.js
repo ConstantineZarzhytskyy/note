@@ -71,7 +71,11 @@
     };
 
     $scope.openSearchModal = function () {
-      $rootScope.$broadcast('openSearchNodal');
+      $rootScope.$broadcast('openSearchModal');
+    };
+
+    $scope.openSortModal = function () {
+      $rootScope.$broadcast('openSortModal');
     }
   }
 

@@ -13,6 +13,10 @@
                 ng-if="isNoteState()"
                 ng-click="openSearchModal()">
         </button>
+        <button class="button button-icon button-clear ion-funnel"
+                ng-if="isNoteState()"
+                ng-click="openSortModal()">
+        </button>
       </ion-nav-buttons>
     </ion-nav-bar>
     <ion-nav-view name="menuContent"></ion-nav-view>

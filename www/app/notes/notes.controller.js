@@ -17,6 +17,7 @@
                            NotesUtils, FoldersUtils) {
     $scope.notes = [];
     $scope.loadingNotes = true;
+    $scope.sortParam = '';
     $scope.search = {
       title: ''
     };
@@ -55,11 +56,24 @@
       $scope.newNoteDialog = modal;
     });
 
-    $rootScope.$on('loginInSystem', function (event, date) {
+    $ionicModal.fromTemplateUrl('note-sort-modal.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.sortNoteDialog = modal;
+    });
+
+    $rootScope.$on('loginInSystem', function () {
       getNotes();
     });
 
-    $rootScope.$on('openSearchNodal', function (event, date) {
+    $scope.changeSortParam = function (selectedSortParam) {
+      $scope.sortParam = selectedSortParam;
+
+      $scope.sortNoteDialog.hide();
+    };
+
+    $rootScope.$on('openSearchModal', function () {
       $cordovaDialogs.prompt('Enter search note title', 'Search note', ['Apply', 'Cancel'], $scope.search.title)
           .then(function (result) {
             if (result.buttonIndex != 1) { return $scope.search.title = ''; }
@@ -68,13 +82,20 @@
           });
     });
 
+    $rootScope.$on('openSortModal', function () {
+      $scope.sortNoteDialog.show();
+    });
+
     $scope.openNewNoteDialog = function () {
       $scope.newNoteDialog.show();
     };
 
     $scope.closeNewNoteDialog = function () {
       $scope.newNoteDialog.hide();
-    };
+
+    $scope.closeSortNoteDialog = function () {
+      $scope.sortNoteDialog.hide();
+    };    };
 
     $scope.saveNote = function (note) {
       console.log(note);
