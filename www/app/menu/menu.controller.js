@@ -70,6 +70,10 @@
       return $state.is('app.notes') || $state.is('app.folders') || $state.is('app.markers');
     };
 
+    $scope.isNoteState = function () {
+      return $state.is('app.notes');
+    };
+
     $scope.openSearchModal = function () {
       if ($state.is('app.notes')) return $rootScope.$broadcast('openSearchNoteModal');
       if ($state.is('app.folders')) return $rootScope.$broadcast('openSearchFolderModal');

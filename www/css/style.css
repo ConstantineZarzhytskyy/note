@@ -6,3 +6,9 @@
   height: 100%;
   width: 100%;
 }
+
+.card > .item > .note-header-done {
+  display: inline-flex;
+  background-color: rgb(245, 245, 245);
+  border-top-width: 0;
+}

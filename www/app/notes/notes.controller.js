@@ -9,12 +9,12 @@
   NotesController.$inject = [
     '$scope', '$rootScope', '$state',
     '$ionicModal', '$cordovaDialogs',
-    'NotesUtils', 'FoldersUtils', 'MarkersUtils'
+    'NotesUtils', 'FoldersUtils', 'MarkersUtils', 'NoteUtils'
   ];
 
   function NotesController($scope, $rootScope, $state,
                            $ionicModal, $cordovaDialogs,
-                           NotesUtils, FoldersUtils, MarkersUtils) {
+                           NotesUtils, FoldersUtils, MarkersUtils, NoteUtils) {
     $scope.notes = [];
     $scope.loadingNotes = true;
     $scope.sortParam = '';
@@ -138,6 +138,17 @@
       $scope.newNoteDialog.hide();
 
       $state.go('app.map', { isNewMarker:true })
+    };
+
+    $scope.changeDone = function (note) {
+      note.done = !!note.done;
+
+      NoteUtils.updateNote(note)
+          .then(function (ok) {
+            getNotes();
+          }, function (err) {
+            console.log(err);
+          })
     };
   }
 })();
