@@ -6,7 +6,7 @@
     <ion-list>
       <ion-item ng-repeat="marker in markers | filter: search.title"
                 ng-click="showMarker(marker)"
-                on-swipe-left="showMarkerOptions(marker)">
+                on-hold="showMarkerOptions(marker)">
         {{ marker.title }}
       </ion-item>
     </ion-list>

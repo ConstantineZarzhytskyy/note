@@ -82,25 +82,8 @@
           })
     });
 
-    $rootScope.$on('newMarkerCreated', function (event, marker) {
-      var newMarker = {
-        lat: marker.position.lat(),
-        lng: marker.position.lng()
-      };
-
-      $cordovaDialogs.prompt('Enter title for new marker', 'New marker', ['Save', 'Cancel'], 'Home')
-          .then(function (result) {
-            if (result.buttonIndex != 1) { return $scope.search.title = ''; }
-
-            newMarker.title = result.input1;
-
-            MarkersUtils.createMarker(newMarker)
-                .then(function (ok) {
-                  getMarkers();
-                }, function (err) {
-                  console.log(err);
-                })
-          });
+    $rootScope.$on('newMarkerCreated', function (event) {
+      getMarkers();
     });
 
     $rootScope.$on('openSearchMarkerModal', function () {

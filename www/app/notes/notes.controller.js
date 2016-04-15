@@ -92,6 +92,12 @@
           });
     });
 
+    $rootScope.$on('newMarkerCreated', function (event) {
+      $scope.newNoteDialog.show();
+
+      getMarkers();
+    });
+
     $rootScope.$on('openSortModal', function () {
       $scope.sortNoteDialog.show();
     });
@@ -126,6 +132,12 @@
 
     $scope.saveNoteInfo = function (newNoteInfoId, selectedId) {
       newNoteInfoId = selectedId;
-    }
+    };
+
+    $scope.createMarker = function () {
+      $scope.newNoteDialog.hide();
+
+      $state.go('app.map', { isNewMarker:true })
+    };
   }
 })();

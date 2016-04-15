@@ -6,13 +6,17 @@
       .config(configApp)
       .config(configSatellizer)
       .constant('server_host', 'https://ionic-note.herokuapp.com/')
-      .run(function ($ionicPlatform) {
+      .run(function ($ionicPlatform, $rootScope) {
         $ionicPlatform.ready(function () {
           if (window.cordova && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
             cordova.plugins.Keyboard.disableScroll(true);
           }
           if (window.StatusBar) { StatusBar.styleDefault(); }
+        });
+
+        $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams) {
+          $rootScope.$previousState = from;
         });
       });
 

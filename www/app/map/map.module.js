@@ -3,6 +3,8 @@
   'use strict';
 
   angular
-      .module('Note.map', []);
+      .module('Note.map', [
+        'Note.markers'
+      ]);
 
 })();

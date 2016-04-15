@@ -7,12 +7,14 @@
       .controller('MapController', MapController);
 
   MapController.$ineject = [
-    '$scope', '$rootScope',
-    '$state', '$stateParams'
+    '$scope', '$rootScope', '$state', '$stateParams',
+    '$cordovaDialogs',
+    'MarkersUtils'
   ];
 
-  function MapController($scope, $rootScope,
-                         $state, $stateParams) {
+  function MapController($scope, $rootScope, $state, $stateParams,
+                         $cordovaDialogs,
+                         MarkersUtils) {
     var map = new google.maps.Map(document.getElementById('map'), {zoom: 16});
     var marker;
     var isNewMarker = $stateParams.isNewMarker;
@@ -51,6 +53,23 @@
       });
     }
 
+    function createMarker(marker) {
+      var newMarker = {
+        lat: marker.position.lat(),
+        lng: marker.position.lng(),
+        title: marker.title
+      };
+
+      MarkersUtils.createMarker(newMarker)
+          .then(function (ok) {
+            $rootScope.$broadcast('newMarkerCreated');
+
+            $state.go($rootScope.$previousState);
+          }, function (err) {
+            console.log(err);
+          })
+    }
+
     google.maps.event.addListener(map, 'click', function (newMarker) {
       marker.setMap(null);
 
@@ -61,8 +80,14 @@
       });
 
       if (isNewMarker) {
-        $rootScope.$broadcast('newMarkerCreated', marker);
-        $state.go('app.markers');
+        $cordovaDialogs.prompt('Enter title for new marker', 'New marker', ['Save', 'Cancel'], 'Home')
+            .then(function (result) {
+              if (result.buttonIndex != 1) { return $scope.search.title = ''; }
+
+              marker.title = result.input1;
+
+              createMarker(marker);
+            });
       }
       if (isEditMarker) {
         marker._id = showMarker._id;
