@@ -1,5 +1,7 @@
 <ion-view view-title="Notes">
   <ion-content>
+    <ion-refresher pulling-text="Pull To Refresh" on-refresh="getNotes()"></ion-refresher>
+
     <div class="card"
          ng-repeat="note in notes | filter: search.title | orderBy: sortParam">
       <div class="item item-divider bar bar-header">

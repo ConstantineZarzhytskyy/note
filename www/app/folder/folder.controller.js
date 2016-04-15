@@ -7,12 +7,12 @@
 
   FolderController.$inject = [
     '$scope', '$state', '$stateParams',
-    '$ionicModal', '$cordovaDialogs',
+    '$ionicModal', '$cordovaDialogs', '$ionicLoading',
     'FolderUtils'
   ];
 
   function FolderController($scope, $state, $stateParams,
-                             $ionicModal, $cordovaDialogs,
+                             $ionicModal, $cordovaDialogs, $ionicLoading,
                              FolderUtils) {
     var folderId = $stateParams.folderId;
 
@@ -20,11 +20,15 @@
     getNotes(folderId);
 
     function getFolders(folderId) {
+      $ionicLoading.show({
+        template: '<ion-spinner icon="bubbles"></ion-spinner>'
+      });
+
       FolderUtils.getFolder(folderId)
           .then(function (folder) {
             $scope.folder = folder;
 
-            console.log(folder);
+            $ionicLoading.hide();
           }, function (err) {
             console.log(err);
           });

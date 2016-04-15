@@ -8,22 +8,30 @@
 
   MarkersController.$inject = [
     '$scope', '$rootScope', '$state',
-    '$cordovaDialogs', '$ionicActionSheet',
+    '$cordovaDialogs', '$ionicActionSheet', '$ionicLoading',
     'MarkersUtils'
   ];
 
   function MarkersController($scope, $rootScope, $state,
-                             $cordovaDialogs, $ionicActionSheet,
+                             $cordovaDialogs, $ionicActionSheet, $ionicLoading,
                              MarkersUtils) {
+    $scope.getMarkers = getMarkers;
     $scope.search = {
       title: ''
     };
 
     getMarkers();
     function getMarkers() {
+      $ionicLoading.show({
+        template: '<ion-spinner icon="bubbles"></ion-spinner>'
+      });
+
       MarkersUtils.getMarkers()
           .then(function (markers) {
             $scope.markers = markers;
+
+            $ionicLoading.hide();
+            $scope.$broadcast('scroll.refreshComplete');
           }, function (err) {
             console.log(err);
           })

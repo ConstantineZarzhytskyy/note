@@ -18,16 +18,12 @@
                  ng-model="user.password">
         </label>
       </div>
-      <ion-spinner icon="spiral"
-                   ng-if="loading"></ion-spinner>
       <button class="button button-block button-positive"
-              ng-click="login(user)"
-              ng-if="!loading">
+              ng-click="login(user)">
         Log In
       </button>
       <button class="button button-block button-positive"
-              ng-click="register(user)"
-              ng-if="!loading">
+              ng-click="register(user)">
         Sign up
       </button>
     </form>

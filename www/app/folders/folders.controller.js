@@ -7,27 +7,47 @@
 
   FoldersController.$inject = [
     '$scope', '$state', '$rootScope',
-    '$ionicModal', '$cordovaDialogs',
+    '$ionicModal', '$cordovaDialogs', '$ionicLoading',
     'FoldersUtils'
   ];
 
   function FoldersController($scope, $state, $rootScope,
-                             $ionicModal, $cordovaDialogs,
+                             $ionicModal, $cordovaDialogs, $ionicLoading,
                              FoldersUtils) {
     $scope.search = {
       title: ''
     };
 
-
     getFolders();
     function getFolders() {
+      $ionicLoading.show({
+        template: '<ion-spinner icon="bubbles"></ion-spinner>'
+      });
+
       FoldersUtils.getFolders()
           .then(function (folders) {
             $scope.folders = folders;
+
+            calcCountDone();
+
+            $ionicLoading.hide();
           }, function (err) {
             console.log(err);
           });
     }
+
+    function calcCountDone() {
+      for(var i in $scope.folders) {
+        $scope.folders[i].countDone = 0;
+
+        for(var j in $scope.folders[i].notes) {
+          if ($scope.folders[i].notes[j].done) {
+            $scope.folders[i].countDone++;
+          }
+        }
+      }
+    }
+
 
     $ionicModal.fromTemplateUrl('folder-modal.html', {
       scope: $scope,

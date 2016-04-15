@@ -8,12 +8,12 @@
 
   MenuController.$inject = [
     '$state', '$scope', '$rootScope',
-    '$ionicModal',
+    '$ionicModal', '$ionicLoading',
     'AuthUtils'
   ];
 
   function MenuController($state, $scope, $rootScope,
-                          $ionicModal,
+                          $ionicModal, $ionicLoading,
                           AuthUtils) {
     $scope.loading = false;
 
@@ -33,8 +33,9 @@
     };
 
     $scope.login = function (user) {
-      console.log(user);
-      $scope.loading = true;
+      $ionicLoading.show({
+        template: '<ion-spinner icon="bubbles"></ion-spinner>'
+      });
 
       AuthUtils.login(user)
           .then(function (ok) {
@@ -43,8 +44,7 @@
 
             $rootScope.$broadcast('loginInSystem', user);
 
-            $scope.loading = false;
-
+            $ionicLoading.hide();
             $scope.authModal.hide();
           }, function (err) {
             console.log(err);
@@ -52,13 +52,9 @@
     };
 
     $scope.register = function (user) {
-      $scope.loading = true;
-
       AuthUtils.register(user)
           .then(function (ok) {
             console.log('User ', ok, 'registered');
-
-            $scope.loading = false;
 
             $scope.authModal.hide();
           }, function (err) {

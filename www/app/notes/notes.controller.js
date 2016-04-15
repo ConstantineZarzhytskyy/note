@@ -8,12 +8,12 @@
 
   NotesController.$inject = [
     '$scope', '$rootScope', '$state',
-    '$ionicModal', '$cordovaDialogs',
+    '$ionicModal', '$cordovaDialogs', '$ionicLoading',
     'NotesUtils', 'FoldersUtils', 'MarkersUtils', 'NoteUtils'
   ];
 
   function NotesController($scope, $rootScope, $state,
-                           $ionicModal, $cordovaDialogs,
+                           $ionicModal, $cordovaDialogs, $ionicLoading,
                            NotesUtils, FoldersUtils, MarkersUtils, NoteUtils) {
     $scope.notes = [];
     $scope.loadingNotes = true;
@@ -26,14 +26,20 @@
     getMarkers();
     getFolders();
 
+    $scope.getNotes = getNotes;
     function getNotes() {
+      //$ionicLoading.show({
+      //  template: '<ion-spinner icon="bubbles"></ion-spinner>'
+      //});
+
       $scope.loadingNotes = true;
 
       NotesUtils.getNotes()
           .then(function (ok) {
             $scope.notes = ok;
 
-            $scope.loadingNotes = false;
+            $ionicLoading.hide();
+            $scope.$broadcast('scroll.refreshComplete');
           }, function (err) {
             console.log(err);
           });

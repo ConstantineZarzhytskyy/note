@@ -1,5 +1,6 @@
 <ion-view view-title="Markers">
   <ion-content>
+    <ion-refresher pulling-text="Pull To Refresh" on-refresh="getMarkers()"></ion-refresher>
     <div ng-if="!markers.length">
       Marker list is empty
     </div>
