@@ -27,22 +27,25 @@
     init();
     function init() {
       navigator.geolocation.getCurrentPosition(function (pos) {
+        var optionMap = {
+          title: "My Location",
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude
+        };
 
-        map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-
-        if (!showMarker.title) {
-          marker = new google.maps.Marker({
-            position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
-            map: map,
-            title: "My Location"
-          });
-        } else {
-          marker = new google.maps.Marker({
-            position: new google.maps.LatLng(showMarker.lat, showMarker.lng),
-            map: map,
-            title: showMarker.title
-          });
+        if (showMarker.title) {
+          optionMap.title = showMarker.title;
+          optionMap.lat = showMarker.lat;
+          optionMap.lng = showMarker.lng;
         }
+
+        map.setCenter(new google.maps.LatLng(optionMap.lat, optionMap.lng));
+
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(optionMap.lat, optionMap.lng),
+          map: map,
+          title: optionMap.title
+        });
 
         $scope.map = map;
       });
