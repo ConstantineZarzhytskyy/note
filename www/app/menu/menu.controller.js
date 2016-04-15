@@ -67,13 +67,13 @@
     };
 
     $scope.hasSearchState = function () {
-      return $state.is('app.notes') || $state.is('app.folders');
+      return $state.is('app.notes') || $state.is('app.folders') || $state.is('app.markers');
     };
 
     $scope.openSearchModal = function () {
       if ($state.is('app.notes')) return $rootScope.$broadcast('openSearchNoteModal');
-
-      $rootScope.$broadcast('openSearchFolderModal');
+      if ($state.is('app.folders')) return $rootScope.$broadcast('openSearchFolderModal');
+      if ($state.is('app.markers')) return $rootScope.$broadcast('openSearchMarkerModal');
     };
 
     $scope.openSortModal = function () {

@@ -15,6 +15,10 @@
   function MarkersController($scope, $rootScope, $state,
                              $cordovaDialogs,
                              MarkersUtils) {
+    $scope.search = {
+      title: ''
+    };
+
     getMarkers();
     function getMarkers() {
       MarkersUtils.getMarkers()
@@ -45,6 +49,15 @@
                 }, function (err) {
                   console.log(err);
                 })
+          });
+    });
+
+    $rootScope.$on('openSearchMarkerModal', function () {
+      $cordovaDialogs.prompt('Enter search marker title', 'Search marker', ['Apply', 'Cancel'], $scope.search.title)
+          .then(function (result) {
+            if (result.buttonIndex != 1) { return $scope.search.title = ''; }
+
+            $scope.search.title = result.input1;
           });
     });
 

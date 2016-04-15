@@ -4,7 +4,7 @@
       Marker list is empty
     </div>
     <ion-list>
-      <ion-item ng-repeat="marker in markers"
+      <ion-item ng-repeat="marker in markers | filter: search.title"
           ng-click="showMarker(marker)">
         {{ marker.title }}
       </ion-item>
