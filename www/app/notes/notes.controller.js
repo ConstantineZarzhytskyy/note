@@ -9,12 +9,12 @@
   NotesController.$inject = [
     '$scope', '$rootScope', '$state',
     '$ionicModal', '$cordovaDialogs',
-    'NotesUtils', 'FoldersUtils'
+    'NotesUtils', 'FoldersUtils', 'MarkersUtils'
   ];
 
   function NotesController($scope, $rootScope, $state,
                            $ionicModal, $cordovaDialogs,
-                           NotesUtils, FoldersUtils) {
+                           NotesUtils, FoldersUtils, MarkersUtils) {
     $scope.notes = [];
     $scope.loadingNotes = true;
     $scope.sortParam = '';
@@ -23,6 +23,7 @@
     };
 
     getNotes();
+    getMarkers();
     getFolders();
 
     function getNotes() {
@@ -33,6 +34,15 @@
             $scope.notes = ok;
 
             $scope.loadingNotes = false;
+          }, function (err) {
+            console.log(err);
+          });
+    }
+
+    function getMarkers() {
+      MarkersUtils.getMarkers()
+          .then(function (markers) {
+            $scope.markers = markers;
           }, function (err) {
             console.log(err);
           });
@@ -114,8 +124,8 @@
       $state.go('app.note', { noteId: note._id });
     };
 
-    $scope.changeFolder = function (newNoteFolder, selectedFolder) {
-      newNoteFolder = selectedFolder;
+    $scope.saveNoteInfo = function (newNoteInfoId, selectedId) {
+      newNoteInfoId = selectedId;
     }
   }
 })();

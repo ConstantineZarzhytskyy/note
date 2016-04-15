@@ -43,10 +43,21 @@
             <div class="input-label">
               Folder:
             </div>
-            <select ng-model="newNote.folderId" ng-click="changeFolder(newNote.folderId, folder)">
+            <select ng-model="newNote.folderId" ng-click="saveNoteInfo(newNote.folderId, folder)">
               <option ng-repeat="folder in folders"
                       value="{{ folder._id }}">
                 {{ folder.title }}
+              </option>
+            </select>
+          </label>
+          <label class="item item-input item-select">
+            <div class="input-label">
+              Marker:
+            </div>
+            <select ng-model="newNote.markerId" ng-click="saveNoteInfo(newNote.markerId, marker)">
+              <option ng-repeat="marker in markers"
+                      value="{{ marker._id }}">
+                {{ marker.title }}
               </option>
             </select>
           </label>

@@ -4,7 +4,8 @@
 
   angular
       .module('Note.notes', [
-          'Note.folders'
+          'Note.folders',
+          'Note.markers'
       ]);
 
 })();
