@@ -73,7 +73,7 @@
       $scope.sortNoteDialog.hide();
     };
 
-    $rootScope.$on('openSearchModal', function () {
+    $rootScope.$on('openSearchNoteModal', function () {
       $cordovaDialogs.prompt('Enter search note title', 'Search note', ['Apply', 'Cancel'], $scope.search.title)
           .then(function (result) {
             if (result.buttonIndex != 1) { return $scope.search.title = ''; }

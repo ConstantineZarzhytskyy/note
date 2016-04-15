@@ -6,14 +6,19 @@
       .controller('FoldersController', FoldersController);
 
   FoldersController.$inject = [
-    '$scope', '$state',
-    '$ionicModal',
+    '$scope', '$state', '$rootScope',
+    '$ionicModal', '$cordovaDialogs',
     'FoldersUtils'
   ];
 
-  function FoldersController($scope, $state,
-                             $ionicModal,
+  function FoldersController($scope, $state, $rootScope,
+                             $ionicModal, $cordovaDialogs,
                              FoldersUtils) {
+    $scope.search = {
+      title: ''
+    };
+
+
     getFolders();
     function getFolders() {
       FoldersUtils.getFolders()
@@ -29,6 +34,15 @@
       animation: 'slide-in-up'
     }).then(function (modal) {
       $scope.folderDialog = modal;
+    });
+
+    $rootScope.$on('openSearchFolderModal', function () {
+      $cordovaDialogs.prompt('Enter search folder title', 'Search folder', ['Apply', 'Cancel'], $scope.search.title)
+          .then(function (result) {
+            if (result.buttonIndex != 1) { return $scope.search.title = ''; }
+
+            $scope.search.title = result.input1;
+          });
     });
 
     $scope.openFolderDialog = function () {

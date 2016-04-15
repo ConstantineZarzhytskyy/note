@@ -66,12 +66,14 @@
           });
     };
 
-    $scope.isNoteState = function () {
-      return $state.is('app.notes');
+    $scope.hasSearchState = function () {
+      return $state.is('app.notes') || $state.is('app.folders');
     };
 
     $scope.openSearchModal = function () {
-      $rootScope.$broadcast('openSearchModal');
+      if ($state.is('app.notes')) return $rootScope.$broadcast('openSearchNoteModal');
+
+      $rootScope.$broadcast('openSearchFolderModal');
     };
 
     $scope.openSortModal = function () {
