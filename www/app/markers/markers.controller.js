@@ -8,12 +8,12 @@
 
   MarkersController.$inject = [
     '$scope', '$rootScope', '$state',
-    '$cordovaDialogs',
+    '$cordovaDialogs', '$ionicActionSheet',
     'MarkersUtils'
   ];
 
   function MarkersController($scope, $rootScope, $state,
-                             $cordovaDialogs,
+                             $cordovaDialogs, $ionicActionSheet,
                              MarkersUtils) {
     $scope.search = {
       title: ''
@@ -29,6 +29,59 @@
           })
     }
 
+    function changeLocationMarker(marker) {
+      var params = {
+        markerId: marker._id,
+        markerTitle: marker.title,
+        markerLat: marker.lat,
+        markerLng: marker.lng,
+        isEditMarker: true
+      };
+
+       $state.go('app.map', params);
+    }
+
+    function renameMarker(marker) {
+      $cordovaDialogs.prompt('Enter new title for marker', 'Rename marker', ['Save', 'Cancel'], marker.title)
+          .then(function (result) {
+            if (result.buttonIndex != 1) { return; }
+
+            marker.title = result.input1;
+
+            MarkersUtils.updateMarker(marker)
+                .then(function (ok) {
+                  getMarkers();
+                }, function (err) {
+                  console.log(err);
+                })
+          });
+    }
+
+    function removeMarker(marker) {
+      MarkersUtils.removeMarker(marker._id)
+          .then(function (ok) {
+            getMarkers();
+          }, function (err) {
+            console.log(err);
+          });
+    }
+
+    $rootScope.$on('updateMarker', function (event, marker) {
+      var updateMarker = {
+        _id: marker._id,
+        title: marker.title,
+        lat: marker.position.lat(),
+        lng: marker.position.lng()
+      };
+
+      MarkersUtils.updateMarker(updateMarker)
+          .then(function (ok) {
+            getMarkers();
+          }, function (err) {
+            console.log(err);
+          })
+    });
+
     $rootScope.$on('newMarkerCreated', function (event, marker) {
       var newMarker = {
         lat: marker.position.lat(),
@@ -37,9 +90,7 @@
 
       $cordovaDialogs.prompt('Enter title for new marker', 'New marker', ['Save', 'Cancel'], 'Home')
           .then(function (result) {
-            if (result.buttonIndex != 1) {
-              return $scope.search.title = '';
-            }
+            if (result.buttonIndex != 1) { return $scope.search.title = ''; }
 
             newMarker.title = result.input1;
 
@@ -73,6 +124,26 @@
       };
 
       $state.go('app.map', params)
-    }
+    };
+
+    $scope.showMarkerOptions = function (marker) {
+      $ionicActionSheet.show({
+        buttons: [
+          { text: 'Change location' },
+          { text: 'Rename' },
+          { text: 'Remove' }
+        ],
+        titleText: 'Modify your marker',
+        cancelText: 'Cancel',
+        cancel: function() {},
+        buttonClicked: function(index) {
+          if (index === 0) { changeLocationMarker(marker); }
+          if (index === 1) { renameMarker(marker); }
+          if (index === 2) { removeMarker(marker); }
+
+          return true;
+        }
+      });
+    };
   }
 })();

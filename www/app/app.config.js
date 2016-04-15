@@ -75,7 +75,7 @@
           }
         })
         .state('app.map', {
-          url: "/map?isNewMarker&markerTitle&markerLat&markerLng",
+          url: "/map?isNewMarker&isEditMarker&markerTitle&markerLat&markerLng&markerId",
           views: {
             'menuContent': {
               templateUrl: "./app/map/map.html",

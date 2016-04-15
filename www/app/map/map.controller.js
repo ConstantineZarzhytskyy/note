@@ -16,10 +16,12 @@
     var map = new google.maps.Map(document.getElementById('map'), {zoom: 16});
     var marker;
     var isNewMarker = $stateParams.isNewMarker;
+    var isEditMarker = $stateParams.isEditMarker;
     var showMarker = {
+      _id: $stateParams.markerId,
+      title: $stateParams.markerTitle,
       lat: $stateParams.markerLat,
-      lng: $stateParams.markerLng,
-      title: $stateParams.markerTitle
+      lng: $stateParams.markerLng
     };
 
     init();
@@ -57,8 +59,14 @@
 
       if (isNewMarker) {
         $rootScope.$broadcast('newMarkerCreated', marker);
-
         $state.go('app.markers');
+      }
+      if (isEditMarker) {
+        marker._id = showMarker._id;
+        marker.title = showMarker.title;
+
+        $rootScope.$broadcast('updateMarker', marker);
+        $state.go('app.markers')
       }
     });
   }
