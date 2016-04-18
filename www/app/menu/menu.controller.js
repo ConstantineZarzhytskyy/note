@@ -78,6 +78,14 @@
 
     $scope.openSortModal = function () {
       $rootScope.$broadcast('openSortModal');
+    };
+
+    $scope.isLogged = function () {
+      return AuthUtils.isLogged();
+    };
+
+    $scope.logout = function () {
+      return AuthUtils.logout();
     }
   }
 
