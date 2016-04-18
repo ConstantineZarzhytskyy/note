@@ -82,10 +82,11 @@
       if (isNewMarker) {
         $cordovaDialogs.prompt('Enter title for new marker', 'New marker', ['Save', 'Cancel'], 'Home')
             .then(function (result) {
-              if (result.buttonIndex != 1) { return $scope.search.title = ''; }
+              if (result.buttonIndex != 1) { return marker.title = 'Home'; }
 
               marker.title = result.input1;
-
+            })
+            .finally(function () {
               createMarker(marker);
             });
       }
