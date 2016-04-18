@@ -17,9 +17,11 @@
     $scope.search = {
       title: ''
     };
+    $scope.newFolder = {};
 
     getFolders();
     function getFolders() {
+      $scope.newFolder = {};
       $ionicLoading.show({
         template: '<ion-spinner icon="bubbles"></ion-spinner>'
       });

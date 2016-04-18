@@ -21,6 +21,7 @@
     $scope.search = {
       title: ''
     };
+    $scope.newNote = {};
 
     getNotes();
     getMarkers();
@@ -28,6 +29,7 @@
 
     $scope.getNotes = getNotes;
     function getNotes() {
+      $scope.newNote = {};
       //$ionicLoading.show({
       //  template: '<ion-spinner icon="bubbles"></ion-spinner>'
       //});
