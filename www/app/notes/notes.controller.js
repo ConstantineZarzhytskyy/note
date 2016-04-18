@@ -8,12 +8,12 @@
 
   NotesController.$inject = [
     '$scope', '$rootScope', '$state',
-    '$ionicModal', '$cordovaDialogs', '$ionicLoading',
+    '$ionicModal', '$cordovaDialogs', '$ionicLoading', '$ionicActionSheet', '$cordovaCamera', '$cordovaImagePicker',
     'NotesUtils', 'FoldersUtils', 'MarkersUtils', 'NoteUtils'
   ];
 
   function NotesController($scope, $rootScope, $state,
-                           $ionicModal, $cordovaDialogs, $ionicLoading,
+                           $ionicModal, $cordovaDialogs, $ionicLoading, $ionicActionSheet, $cordovaCamera, $cordovaImagePicker,
                            NotesUtils, FoldersUtils, MarkersUtils, NoteUtils) {
     $scope.notes = [];
     $scope.loadingNotes = true;
@@ -69,6 +69,49 @@
           })
     }
 
+    function createPictureWithCamera() {
+      var options = {
+        destinationType: Camera.DestinationType.FILE_URI,
+        sourceType: Camera.PictureSourceType.CAMERA,
+        saveToPhotoAlbum: true
+      };
+
+      $cordovaCamera.getPicture(options)
+          .then(function (picture) {
+            $scope.newNote.picture = picture;
+
+            window.plugins.Base64.encodeFile($scope.newNote.picture, function (base64) {  // Encode URI to Base64 needed for contacts plugin
+              $scope.newNote.picture = base64;
+            });
+          }, function (err) {
+            console.log(err);
+          });
+    }
+
+    function getPictureFromGallery() {
+      var options = {
+        maximumImagesCount: 1,
+        width: 800,
+        height: 800,
+        quality: 80
+      };
+
+      $cordovaImagePicker.getPictures(options).then(function (results) {
+        $scope.newNote.picture = results[0];
+
+        window.plugins.Base64.encodeFile($scope.newNote.picture, function (base64) {  // Encode URI to Base64 needed for contacts plugin
+          $scope.newNote.picture = base64;
+          $scope.$apply();
+        });
+      }, function(error) {
+        console.log('Error: ' + JSON.stringify(error));    // In case of error
+      });
+    }
+
+    function encodeFile(file) {
+
+    }
+
     $ionicModal.fromTemplateUrl('note-modal.html', {
       scope: $scope,
       animation: 'slide-in-up'
@@ -119,7 +162,7 @@
     $scope.closeNewNoteDialog = function () {
       $scope.newNoteDialog.hide();
     };
-    
+
     $scope.closeSortNoteDialog = function () {
       $scope.sortNoteDialog.hide();
     };
@@ -159,6 +202,23 @@
           }, function (err) {
             console.log(err);
           })
+    };
+
+    $scope.applyPicture = function () {
+      $ionicActionSheet.show({
+        buttons: [
+          { text: 'Create new from camera' },
+          { text: 'Choose from exist' }
+        ],
+        titleText: 'Picture',
+        cancelText: 'Cancel',
+        buttonClicked: function(index) {
+          if (index === 0) { createPictureWithCamera(); }
+          if (index === 1) { getPictureFromGallery(); }
+
+          return true;
+        }
+      });
     };
   }
 })();

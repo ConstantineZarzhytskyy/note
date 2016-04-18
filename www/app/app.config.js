@@ -99,7 +99,7 @@
     $authProvider.loginUrl = '/api/auth/login';
     $authProvider.signupUrl = '/api/auth/registration';
     $authProvider.tokenName = 'token';
-    $authProvider.storageType = 'sessionStorage';
+    $authProvider.storageType = 'localStorage';
     $authProvider.authToken = 'Bearer';
     $authProvider.authHeader = 'Authorization';
   }

@@ -9,6 +9,11 @@
         {{ note.description }}
       </div>
     </div>
+    <div class="list cart" ng-if="note.picture">
+      <div class="item item-image">
+        <img ng-src="{{ note.picture }}"/>
+      </div>
+    </div>
   </ion-content>
   <ion-footer-bar>
     <div class="tabs tabs-icon-top padding-top">
