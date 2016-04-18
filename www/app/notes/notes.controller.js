@@ -39,9 +39,11 @@
             $scope.notes = ok;
 
             $ionicLoading.hide();
-            $scope.$broadcast('scroll.refreshComplete');
           }, function (err) {
             console.log(err);
+          })
+          .finally(function () {
+            $scope.$broadcast('scroll.refreshComplete');
           });
     }
 

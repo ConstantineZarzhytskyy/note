@@ -34,6 +34,7 @@
           controller: 'MenuController'
         })
         .state('app.notes', {
+          cache: false,
           url: "/notes",
           views: {
             'menuContent': {
@@ -52,6 +53,7 @@
           }
         })
         .state('app.folders', {
+          cache: false,
           url: "/folders",
           views: {
             'menuContent': {
@@ -70,6 +72,7 @@
           }
         })
         .state('app.markers', {
+          cache: false,
           url: "/markers",
           views: {
             'menuContent': {
@@ -79,6 +82,7 @@
           }
         })
         .state('app.map', {
+          cache: false,
           url: "/map?isNewMarker&isEditMarker&markerTitle&markerLat&markerLng&markerId",
           views: {
             'menuContent': {
