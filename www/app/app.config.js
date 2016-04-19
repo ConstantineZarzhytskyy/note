@@ -13,6 +13,8 @@
             cordova.plugins.Keyboard.disableScroll(true);
           }
           if (window.StatusBar) { StatusBar.styleDefault(); }
+
+          $rootScope.device = device.uuid;
         });
 
         $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams) {

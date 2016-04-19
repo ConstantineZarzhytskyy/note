@@ -7,11 +7,11 @@
       .factory('NotesUtils', NotesUtils);
 
   NotesUtils.$inject = [
-    '$q', '$http',
+    '$q', '$http', '$auth',
     'server_host'
   ];
 
-  function NotesUtils($q, $http,
+  function NotesUtils($q, $http, $auth,
                           server_host) {
     var service = {
       getNotes: getNotes,
@@ -19,6 +19,7 @@
     };
 
     function getNotes() {
+      console.log('NoteUtils token = ' + $auth.getToken());
       var defer = $q.defer();
 
       $http.get(server_host + 'api/notes')

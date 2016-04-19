@@ -8,13 +8,15 @@
 
   NotesController.$inject = [
     '$scope', '$rootScope', '$state',
-    '$ionicModal', '$cordovaDialogs', '$ionicLoading', '$ionicActionSheet', '$cordovaCamera', '$cordovaImagePicker',
-    'NotesUtils', 'FoldersUtils', 'MarkersUtils', 'NoteUtils'
+    '$ionicModal', '$ionicLoading', '$ionicActionSheet', '$ionicPlatform',
+    '$cordovaDialogs', '$cordovaCamera', '$cordovaImagePicker',
+    'NotesUtils', 'FoldersUtils', 'MarkersUtils', 'NoteUtils', 'AuthUtils'
   ];
 
   function NotesController($scope, $rootScope, $state,
-                           $ionicModal, $cordovaDialogs, $ionicLoading, $ionicActionSheet, $cordovaCamera, $cordovaImagePicker,
-                           NotesUtils, FoldersUtils, MarkersUtils, NoteUtils) {
+                           $ionicModal, $ionicLoading, $ionicActionSheet, $ionicPlatform,
+                           $cordovaDialogs, $cordovaCamera, $cordovaImagePicker,
+                           NotesUtils, FoldersUtils, MarkersUtils, NoteUtils, AuthUtils) {
     $scope.notes = [];
     $scope.loadingNotes = true;
     $scope.sortParam = '';
@@ -23,9 +25,14 @@
     };
     $scope.newNote = {};
 
-    getNotes();
-    getMarkers();
-    getFolders();
+    $ionicPlatform.ready(function () {
+      AuthUtils.authWithDeviceUUID($rootScope.device)
+          .then(function () {
+            getNotes();
+            getMarkers();
+            getFolders();
+          });
+    });
 
     $scope.getNotes = getNotes;
     function getNotes() {

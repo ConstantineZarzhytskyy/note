@@ -17,7 +17,8 @@
       register: register,
       isLogged: isLogged,
       logout: logout,
-      userInfo: userInfo
+      userInfo: userInfo,
+      authWithDeviceUUID: authWithDeviceUUID
     };
 
     function login(user) {
@@ -53,6 +54,20 @@
 
       $http.get(server_host + 'api/auth/user')
           .success(defer.resolve)
+          .error(defer.reject);
+
+      return defer.promise;
+    }
+
+    function authWithDeviceUUID(UUID) {
+      var defer = $q.defer();
+
+      $http.get(server_host + 'api/auth/UUID/' + UUID)
+          .success(function (ok) {
+            $auth.setToken(ok.token);
+
+            defer.resolve(ok.user);
+          })
           .error(defer.reject);
 
       return defer.promise;
