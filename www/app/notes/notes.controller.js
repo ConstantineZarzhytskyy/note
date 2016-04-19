@@ -8,14 +8,14 @@
 
   NotesController.$inject = [
     '$scope', '$rootScope', '$state',
-    '$ionicModal', '$ionicLoading', '$ionicActionSheet', '$ionicPlatform',
-    '$cordovaDialogs', '$cordovaCamera', '$cordovaImagePicker',
+    '$ionicModal', '$ionicLoading', '$ionicActionSheet', '$ionicPlatform', 'ionicTimePicker',
+    '$cordovaDialogs', '$cordovaCamera', '$cordovaImagePicker', '$cordovaLocalNotification',
     'NotesUtils', 'FoldersUtils', 'MarkersUtils', 'NoteUtils', 'AuthUtils'
   ];
 
   function NotesController($scope, $rootScope, $state,
-                           $ionicModal, $ionicLoading, $ionicActionSheet, $ionicPlatform,
-                           $cordovaDialogs, $cordovaCamera, $cordovaImagePicker,
+                           $ionicModal, $ionicLoading, $ionicActionSheet, $ionicPlatform, ionicTimePicker,
+                           $cordovaDialogs, $cordovaCamera, $cordovaImagePicker, $cordovaLocalNotification,
                            NotesUtils, FoldersUtils, MarkersUtils, NoteUtils, AuthUtils) {
     $scope.notes = [];
     $scope.loadingNotes = true;
@@ -37,9 +37,9 @@
     $scope.getNotes = getNotes;
     function getNotes() {
       $scope.newNote = {};
-      //$ionicLoading.show({
-      //  template: '<ion-spinner icon="bubbles"></ion-spinner>'
-      //});
+      $ionicLoading.show({
+        template: '<ion-spinner icon="bubbles"></ion-spinner>'
+      });
 
       $scope.loadingNotes = true;
 
@@ -115,10 +115,6 @@
       });
     }
 
-    function encodeFile(file) {
-
-    }
-
     $ionicModal.fromTemplateUrl('note-modal.html', {
       scope: $scope,
       animation: 'slide-in-up'
@@ -177,10 +173,27 @@
     $scope.saveNote = function (note) {
       console.log(note);
       NotesUtils.createNote(note)
-          .then(function () {
+          .then(function (newNote) {
             $scope.newNoteDialog.hide();
 
-            getNotes();
+            var alarmTime = new Date(note.dateNotification);
+            console.log('note.dateNotification = ' + note.dateNotification);
+            console.log('note.dateNotification = ' + note.timeNotification);
+            alarmTime.setHours(note.timeNotification.getHours());
+            alarmTime.setMinutes(note.timeNotification.getMinutes());
+            console.log('time = ' + alarmTime);
+            $cordovaLocalNotification.schedule({
+              date: alarmTime,
+              message: note.description,
+              title: note.title,
+              autoCancel: true,
+              sound: null,
+              data: {
+                noteId: newNote._id.toString()
+              }
+            }).then(function () {
+              getNotes();
+            });
           }, function (err) {
             console.log(err);
           });
@@ -226,6 +239,21 @@
           return true;
         }
       });
+    };
+
+    $scope.setupTime = function () {
+      var time = {
+        callback: function (time) {
+          if (typeof (time) === 'undefined') { return; }
+
+          var selectedTime = new Date(time * 1000);
+          $scope.newNote.timeNotification = new Date();
+          $scope.newNote.timeNotification.setHours(selectedTime.getUTCHours());
+          $scope.newNote.timeNotification.setMinutes(selectedTime.getUTCMinutes());
+        }
+      };
+
+      ionicTimePicker.openTimePicker(time);
     };
   }
 })();

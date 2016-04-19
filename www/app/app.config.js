@@ -5,6 +5,7 @@
       .module('Note')
       .config(configApp)
       .config(configSatellizer)
+      .config(configTimePicker)
       .constant('server_host', 'https://ionic-note.herokuapp.com/')
       .run(function ($ionicPlatform, $rootScope) {
         $ionicPlatform.ready(function () {
@@ -20,10 +21,16 @@
         $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams) {
           $rootScope.$previousState = from;
         });
+
+        $rootScope.$on('$cordovaLocalNotification:click',
+            function (event, notification, state) {
+              $rootScope.notification = notification.data;
+            });
       });
 
   configApp.$inject = ['$stateProvider', '$urlRouterProvider'];
   configSatellizer.$inject = ['$authProvider'];
+  configTimePicker.$inject = ['ionicTimePickerProvider'];
 
   function configApp($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/app/notes");
@@ -104,5 +111,16 @@
     $authProvider.storageType = 'localStorage';
     $authProvider.authToken = 'Bearer';
     $authProvider.authHeader = 'Authorization';
+  }
+
+  function configTimePicker(ionicTimePickerProvider) {
+    var timePickerObj = {
+      inputTime: (((new Date()).getHours() * 60 * 60) + ((new Date()).getMinutes() * 60)),
+      format: 24,
+      step: 1,
+      setLabel: 'Set',
+      closeLabel: 'Close'
+    };
+    ionicTimePickerProvider.configTimePicker(timePickerObj);
   }
 })();

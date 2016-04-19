@@ -8,6 +8,7 @@
         'ionic.service.core',
         'satellizer',
         'ngCordova',
+        'ionic-timepicker',
         'Note.menu',
         'Note.auth',
         'Note.notes',

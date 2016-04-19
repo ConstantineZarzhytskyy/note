@@ -77,6 +77,11 @@
             <input type="date" ng-model="newNote.dateNotification">
           </label>
           <button class="button button-full button-positive"
+                  ng-click="setupTime()">
+            <span class="input-label">Time</span>
+            {{ newNote.timeNotification.toString() }}
+          </button>
+          <button class="button button-full button-positive"
                   ng-click="applyPicture()">
             Apply picture
           </button>
@@ -87,7 +92,8 @@
           </div>
         </div>
         <button class="button button-clear button-positive"
-                ng-click="saveNote(newNote)">Save
+                ng-click="saveNote(newNote)">
+          Save
         </button>
       </form>
     </ion-content>
