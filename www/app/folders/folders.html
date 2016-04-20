@@ -1,9 +1,14 @@
 <ion-view view-title="Folders">
   <ion-content>
-    <div class="card">
+    <div class="title"
+         ng-if="!folders.length">
+      Folder list is empty
+    </div>
+    <div class="card"
+         ng-if="folders.length">
       <div class="item item-text-wrap bar bar-header"
            ng-repeat="folder in folders | filter: search.title"
-          ng-click="getFolderInfo(folder)">
+           ng-click="getFolderInfo(folder)">
         <div class="title">{{ folder.title }}</div>
         <button class="button button-clear button-positive">{{ folder.countDone }}/{{ folder.notes.length }}</button>
       </div>
