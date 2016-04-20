@@ -3,7 +3,7 @@
     <ion-refresher pulling-text="Pull To Refresh" on-refresh="getNotes()"></ion-refresher>
 
     <div class="empty-list"
-        ng-if="!note.length">
+         ng-if="!note.length">
       Note list is empty
     </div>
     <div class="card"
@@ -81,11 +81,11 @@
             <span class="input-label">Date</span>
             <input type="date" ng-model="newNote.dateNotification">
           </label>
-          <button class="button button-full button-positive"
-                  ng-click="setupTime()">
-            <span class="input-label">Time</span>
-            {{ newNote.timeNotification.toString() }}
-          </button>
+          <label class="item item-input"
+                 ng-click="setupTime()">
+            <span class="input-label">Time:</span>
+            {{ newNote.timeNotification | date:'HH:mm:ss' }}
+            </label>
           <button class="button button-full button-positive"
                   ng-click="applyPicture()">
             Apply picture

@@ -29,19 +29,22 @@
       if (!AuthUtils.isLogged()) {
         AuthUtils.authWithDeviceUUID($rootScope.device)
             .then(function () {
-              getNotes();
-              getMarkers();
-              getFolders();
+              init();
             });
       } else {
-        getNotes();
-        getMarkers();
-        getFolders();
+        init();
       }
 
     });
 
     $scope.getNotes = getNotes;
+
+    function init() {
+      getNotes();
+      getMarkers();
+      getFolders();
+    }
+
     function getNotes() {
       $scope.newNote = {};
       $ionicLoading.show({
@@ -217,7 +220,7 @@
     $scope.createMarker = function () {
       $scope.newNoteDialog.hide();
 
-      $state.go('app.map', { isNewMarker:true })
+      $state.go('app.map', { isEditMarker:true })
     };
 
     $scope.changeDone = function (note) {
