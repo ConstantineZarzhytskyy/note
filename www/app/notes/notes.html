@@ -2,6 +2,10 @@
   <ion-content>
     <ion-refresher pulling-text="Pull To Refresh" on-refresh="getNotes()"></ion-refresher>
 
+    <div class="empty-list"
+        ng-if="!note.length">
+      Note list is empty
+    </div>
     <div class="card"
          ng-repeat="note in notes | filter: search.title | orderBy: sortParam"
          on-hold="showOptionsForNote(note)">

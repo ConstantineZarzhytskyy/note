@@ -12,3 +12,8 @@
   background-color: rgb(245, 245, 245);
   border-top-width: 0;
 }
+
+.empty-list {
+  text-align: center;
+  vertical-align: middle;
+}
