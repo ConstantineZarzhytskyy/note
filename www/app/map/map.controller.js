@@ -93,9 +93,8 @@
             .then(function (result) {
               if (result.buttonIndex != 1) { return marker.title = 'Home'; }
 
-              marker.title = result.input1;
-            })
-            .finally(function () {
+              marker.title = (!result.input1) ? marker.position.lat() + ':' +  marker.position.lng() : result.input1;
+
               createMarker(marker);
             });
       }
