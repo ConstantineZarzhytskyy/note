@@ -7,13 +7,15 @@
 
   FoldersController.$inject = [
     '$scope', '$state', '$rootScope',
-    '$ionicModal', '$cordovaDialogs', '$ionicLoading',
-    'FoldersUtils'
+    '$ionicModal', '$ionicLoading', '$ionicActionSheet',
+    '$cordovaDialogs',
+    'FoldersUtils', 'FolderUtils'
   ];
 
   function FoldersController($scope, $state, $rootScope,
-                             $ionicModal, $cordovaDialogs, $ionicLoading,
-                             FoldersUtils) {
+                             $ionicModal, $ionicLoading, $ionicActionSheet,
+                             $cordovaDialogs,
+                             FoldersUtils, FolderUtils) {
     $scope.search = {
       title: ''
     };
@@ -88,6 +90,32 @@
 
     $scope.getFolderInfo = function (folder) {
       $state.go('app.folder', { folderId: folder._id });
-    }
+    };
+
+    $scope.showFolderOptions = function (folder) {
+      $ionicActionSheet.show({
+        buttons: [
+          { text: 'Update' },
+          { text: 'Remove' }
+        ],
+        titleText: folder.title,
+        cancelText: 'Cancel',
+        buttonClicked: function(index) {
+          if (index === 0) {
+            $state.go('app.folder', { folderId: folder._id, update: true })
+          }
+          if (index === 1) {
+            FolderUtils.removeFolder(folder._id)
+                .then(function (ok) {
+                  getFolders();
+                }, function (err) {
+                  console.log(err);
+                });
+          }
+
+          return true;
+        }
+      });
+    };
   }
 })();

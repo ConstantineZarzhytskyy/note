@@ -275,7 +275,6 @@
         titleText: note.title,
         cancelText: 'Cancel',
         buttonClicked: function(index) {
-          console.log(index);
           if (index === 0) {
             $state.go('app.note', { noteId: note._id, update: true })
           }

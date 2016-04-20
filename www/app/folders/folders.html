@@ -8,7 +8,8 @@
          ng-if="folders.length">
       <div class="item item-text-wrap bar bar-header"
            ng-repeat="folder in folders | filter: search.title"
-           ng-click="getFolderInfo(folder)">
+           ng-click="getFolderInfo(folder)"
+           on-hold="showFolderOptions(folder)">
         <div class="title">{{ folder.title }}</div>
         <button class="button button-clear button-positive">{{ folder.countDone }}/{{ folder.notes.length }}</button>
       </div>

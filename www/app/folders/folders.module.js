@@ -2,5 +2,7 @@
   'use strict';
 
   angular
-      .module('Note.folders', []);
+      .module('Note.folders', [
+          'Note.folder'
+      ]);
 })();

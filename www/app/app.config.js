@@ -72,7 +72,7 @@
           }
         })
         .state('app.folder', {
-          url: "/folders/:folderId",
+          url: "/folders/:folderId?update",
           views: {
             'menuContent': {
               templateUrl: "./app/folder/folder.html",

@@ -15,11 +15,12 @@
                              $ionicModal, $cordovaDialogs, $ionicLoading,
                              FolderUtils) {
     var folderId = $stateParams.folderId;
+    var isUpdate = $stateParams.update;
 
-    getFolders(folderId);
+    getFolder(folderId);
     getNotes(folderId);
 
-    function getFolders(folderId) {
+    function getFolder(folderId) {
       $ionicLoading.show({
         template: '<ion-spinner icon="bubbles"></ion-spinner>'
       });
@@ -29,6 +30,10 @@
             $scope.folder = folder;
 
             $ionicLoading.hide();
+
+            if (isUpdate) {
+              $scope.updateFolderDialog.show();
+            }
           }, function (err) {
             console.log(err);
           });
