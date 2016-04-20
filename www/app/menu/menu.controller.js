@@ -44,10 +44,13 @@
 
             $rootScope.$broadcast('loginInSystem', user);
 
-            $ionicLoading.hide();
             $scope.authModal.hide();
           }, function (err) {
+            alert(err.data.err, 'Auth error', 'OK');
             console.log(err);
+          })
+          .finally(function () {
+            $ionicLoading.hide();
           });
     };
 
