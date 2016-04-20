@@ -8,13 +8,15 @@
 
   NoteController.$inject = [
     '$scope', '$stateParams', '$state',
-    '$ionicModal', '$cordovaDialogs',
-    'NoteUtils'
+    '$ionicModal',
+    '$cordovaDialogs',
+    'NoteUtils', 'MarkersUtils', 'FolderUtils'
   ];
 
   function NoteController($scope, $stateParams, $state,
-                          $ionicModal, $cordovaDialogs,
-                          NoteUtils) {
+                          $ionicModal,
+                          $cordovaDialogs,
+                          NoteUtils, MarkersUtils, FolderUtils) {
     var noteId = $stateParams.noteId;
     var isUpdateNote = $stateParams.update;
 
@@ -25,7 +27,28 @@
             $scope.note = note;
 
             console.log($scope.note);
+            getMarker($scope.note.markerId);
+            getFolder($scope.note.folderId);
+
             checkUpdate();
+          }, function (err) {
+            console.log(err);
+          })
+    }
+
+    function getMarker(markerId) {
+      MarkersUtils.getMarker(markerId)
+          .then(function (marker) {
+            $scope.marker = marker;
+          }, function (err) {
+            console.log(err);
+          });
+    }
+
+    function getFolder(folderId) {
+      FolderUtils.getFolder(folderId)
+          .then(function (folder) {
+            $scope.folder = folder;
           }, function (err) {
             console.log(err);
           })
@@ -83,6 +106,14 @@
           }, function (err) {
             console.log(err);
           });
+    };
+
+    $scope.showMarker = function () {
+      $state.go('app.map', { markerId: $scope.marker._id });
+    };
+
+    $scope.showFolder = function () {
+      $state.go('app.folder', { folderId: $scope.folder._id });
     };
   }
 })();

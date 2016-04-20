@@ -1,14 +1,8 @@
 <ion-view>
-  <ion-nav-title>{{ folder.title }}</ion-nav-title>
+  <ion-nav-title>{{ folder.title }} [{{ notesDone }} : {{ notes.length }}]</ion-nav-title>
   <ion-content>
-    <div class="row" ng-if="!notes.length">
-      <div class="col"></div>
-      <div class="col">
-        <div class="text-center">
-          <h5 style="text-align: center;">Empty folder</h5>
-        </div>
-      </div>
-      <div class="col"></div>
+    <div class="empty-list" ng-if="!notes.length">
+      Folder is empty
     </div>
     <div class="card"
          ng-repeat="note in notes"

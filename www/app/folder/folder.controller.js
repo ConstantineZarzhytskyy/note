@@ -16,6 +16,7 @@
                              FolderUtils) {
     var folderId = $stateParams.folderId;
     var isUpdate = $stateParams.update;
+    $scope.notesDone = 0;
 
     getFolder(folderId);
     getNotes(folderId);
@@ -43,6 +44,10 @@
       FolderUtils.getNotes(folderId)
           .then(function (notes) {
             $scope.notes = notes;
+
+            for(var i in $scope.notes) {
+              if ($scope.notes[i].done) $scope.notesDone++;
+            }
 
             console.log(notes);
           }, function (err) {

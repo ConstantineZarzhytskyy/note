@@ -11,7 +11,8 @@
         Done:
         <label class="toggle">
           <input type="checkbox"
-                 ng-model="note.done">
+                 ng-model="note.done"
+                 ng-change="saveUpdate(note)">
 
           <div class="track">
             <div class="handle"></div>
@@ -24,6 +25,22 @@
       <label class="item item-input">
         <span class="input-label">Date:</span>
         {{ note.timeNotification | date: "HH:mm:ss" }} {{ note.dateNotification | date: "dd-mm-yyyy" }}
+      </label>
+    </div>
+    <div class="card"
+         ng-if="note.markerId"
+         ng-click="showMarker()">
+      <label class="item item-input">
+        <span class="input-label">Marker:</span>
+        {{ marker.title }}
+      </label>
+    </div>
+    <div class="card"
+         ng-if="note.folderId"
+         ng-click="showFolder()">
+      <label class="item item-input">
+        <span class="input-label">Folder:</span>
+        {{ folder.title }}
       </label>
     </div>
     <div class="list cart" ng-if="note.picture">
