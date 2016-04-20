@@ -33,16 +33,20 @@
       </div>
     </ion-header-bar>
     <ion-content>
-      <form>
+      <form name="newFolderForm">
         <div class="list">
           <label class="item item-input item-floating-label">
             <span class="input-label">Title</span>
             <input type="text" placeholder="Task folder"
+                   required
                    ng-model="newFolder.title">
           </label>
         </div>
         <button class="button button-clear button-positive"
-                ng-click="saveFolder(newFolder)">Save
+                type="submit"
+                ng-disabled="newFolderForm.$invalid"
+                ng-click="saveFolder(newFolder)">
+          Save
         </button>
       </form>
     </ion-content>
