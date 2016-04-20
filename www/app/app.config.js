@@ -53,7 +53,7 @@
           }
         })
         .state('app.note', {
-          url: "/notes/:noteId",
+          url: "/notes/:noteId?update",
           views: {
             'menuContent': {
               templateUrl: "./app/note/note.html",

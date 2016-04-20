@@ -26,12 +26,19 @@
     $scope.newNote = {};
 
     $ionicPlatform.ready(function () {
-      AuthUtils.authWithDeviceUUID($rootScope.device)
-          .then(function () {
-            getNotes();
-            getMarkers();
-            getFolders();
-          });
+      if (!AuthUtils.isLogged()) {
+        AuthUtils.authWithDeviceUUID($rootScope.device)
+            .then(function () {
+              getNotes();
+              getMarkers();
+              getFolders();
+            });
+      } else {
+        getNotes();
+        getMarkers();
+        getFolders();
+      }
+
     });
 
     $scope.getNotes = getNotes;
@@ -254,6 +261,33 @@
       };
 
       ionicTimePicker.openTimePicker(time);
+    };
+
+    $scope.showOptionsForNote = function (note) {
+      $ionicActionSheet.show({
+        buttons: [
+          { text: 'Update' },
+          { text: 'Remove' }
+        ],
+        titleText: note.title,
+        cancelText: 'Cancel',
+        buttonClicked: function(index) {
+          console.log(index);
+          if (index === 0) {
+            $state.go('app.note', { noteId: note._id, update: true })
+          }
+          if (index === 1) {
+            NoteUtils.removeNote(note._id)
+                .then(function (ok) {
+                  getNotes();
+                }, function (err) {
+                  console.log(err);
+                });
+          }
+
+          return true;
+        }
+      });
     };
   }
 })();

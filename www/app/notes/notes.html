@@ -3,7 +3,8 @@
     <ion-refresher pulling-text="Pull To Refresh" on-refresh="getNotes()"></ion-refresher>
 
     <div class="card"
-         ng-repeat="note in notes | filter: search.title | orderBy: sortParam">
+         ng-repeat="note in notes | filter: search.title | orderBy: sortParam"
+         on-hold="showOptionsForNote(note)">
       <div class="item item-divider bar bar-header">
         <span class="title"
               ng-click="getNoteInfo(note)">

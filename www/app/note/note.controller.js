@@ -16,6 +16,7 @@
                           $ionicModal, $cordovaDialogs,
                           NoteUtils) {
     var noteId = $stateParams.noteId;
+    var isUpdateNote = $stateParams.update;
 
     getNote(noteId);
     function getNote(noteId) {
@@ -24,9 +25,16 @@
             $scope.note = note;
 
             console.log($scope.note);
+            checkUpdate();
           }, function (err) {
             console.log(err);
           })
+    }
+
+    function checkUpdate() {
+      if (isUpdateNote) {
+        $scope.updateNoteDialog.show();
+      }
     }
 
     $ionicModal.fromTemplateUrl('update-note-modal.html', {
