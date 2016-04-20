@@ -1,13 +1,30 @@
-<ion-view view-title="{{ note.title }}">
+<ion-view>
+  <ion-nav-title>{{ note.title }}</ion-nav-title>
   <ion-content>
-    <ion-checkbox ng-model="note.done"
-        ng-click="changeDone()">
-      Done
-    </ion-checkbox>
     <div class="card">
       <div class="item item-text-wrap">
         {{ note.description }}
       </div>
+    </div>
+    <div class="card">
+      <div class="item item-toggle">
+        Done:
+        <label class="toggle">
+          <input type="checkbox"
+                 ng-model="note.done">
+
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label>
+      </div>
+    </div>
+    <div class="card"
+         ng-if="note.dateNotification">
+      <label class="item item-input">
+        <span class="input-label">Date:</span>
+        {{ note.timeNotification | date: "HH:mm:ss" }} {{ note.dateNotification | date: "dd-mm-yyyy" }}
+      </label>
     </div>
     <div class="list cart" ng-if="note.picture">
       <div class="item item-image">
@@ -18,7 +35,7 @@
   <ion-footer-bar>
     <div class="tabs tabs-icon-top padding-top">
       <a class="tab-item"
-          ng-click="updateNote()">
+         ng-click="updateNote()">
         <i class="icon ion-edit"></i>
       </a>
       <a class="tab-item"

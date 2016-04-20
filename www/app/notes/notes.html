@@ -3,7 +3,7 @@
     <ion-refresher pulling-text="Pull To Refresh" on-refresh="getNotes()"></ion-refresher>
 
     <div class="empty-list"
-         ng-if="!note.length">
+         ng-if="!notes.length">
       Note list is empty
     </div>
     <div class="card"
@@ -42,11 +42,12 @@
       <div class="h1 title">New note</div>
     </ion-header-bar>
     <ion-content>
-      <form>
+      <form name="NewNoteForm">
         <div class="list">
           <label class="item item-input item-floating-label">
             <span class="input-label">Title</span>
             <input type="text" placeholder="ToDo"
+                   required
                    ng-model="newNote.title">
           </label>
           <label class="item item-input item-floating-label">
@@ -85,7 +86,7 @@
                  ng-click="setupTime()">
             <span class="input-label">Time:</span>
             {{ newNote.timeNotification | date:'HH:mm:ss' }}
-            </label>
+          </label>
           <button class="button button-full button-positive"
                   ng-click="applyPicture()">
             Apply picture
@@ -97,6 +98,8 @@
           </div>
         </div>
         <button class="button button-clear button-positive"
+                type="submit"
+                ng-disabled="NewNoteForm.$invalid"
                 ng-click="saveNote(newNote)">
           Save
         </button>

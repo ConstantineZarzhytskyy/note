@@ -125,6 +125,28 @@
       });
     }
 
+    function setupNotification(note) {
+      if (!note.intervalotification) { return getNotes(); }
+
+      var alarmTime = new Date(note.dateNotification);
+      alarmTime.setHours(note.timeNotification.getHours());
+      alarmTime.setMinutes(note.timeNotification.getMinutes());
+      console.log('time = ' + alarmTime);
+
+      $cordovaLocalNotification.schedule({
+        date: alarmTime,
+        message: note.description,
+        title: note.title,
+        autoCancel: true,
+        sound: null,
+        data: {
+          noteId: newNote._id.toString()
+        }
+      }).then(function () {
+        getNotes();
+      });
+    }
+
     $ionicModal.fromTemplateUrl('note-modal.html', {
       scope: $scope,
       animation: 'slide-in-up'
@@ -186,24 +208,7 @@
           .then(function (newNote) {
             $scope.newNoteDialog.hide();
 
-            var alarmTime = new Date(note.dateNotification);
-            console.log('note.dateNotification = ' + note.dateNotification);
-            console.log('note.dateNotification = ' + note.timeNotification);
-            alarmTime.setHours(note.timeNotification.getHours());
-            alarmTime.setMinutes(note.timeNotification.getMinutes());
-            console.log('time = ' + alarmTime);
-            $cordovaLocalNotification.schedule({
-              date: alarmTime,
-              message: note.description,
-              title: note.title,
-              autoCancel: true,
-              sound: null,
-              data: {
-                noteId: newNote._id.toString()
-              }
-            }).then(function () {
-              getNotes();
-            });
+            setupNotification(note);
           }, function (err) {
             console.log(err);
           });
@@ -228,7 +233,6 @@
 
       NoteUtils.updateNote(note)
           .then(function (ok) {
-            getNotes();
           }, function (err) {
             console.log(err);
           })
