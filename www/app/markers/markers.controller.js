@@ -38,15 +38,7 @@
     }
 
     function changeLocationMarker(marker) {
-      var params = {
-        markerId: marker._id,
-        markerTitle: marker.title,
-        markerLat: marker.lat,
-        markerLng: marker.lng,
-        isEditMarker: true
-      };
-
-       $state.go('app.map', params);
+       $state.go('app.map', { markerId: marker._id, isEditMarker: true });
     }
 
     function renameMarker(marker) {
@@ -104,17 +96,11 @@
     });
 
     $scope.creteMarker = function () {
-      $state.go('app.map', {isNewMarker: true});
+      $state.go('app.map', { isEditMarker: true });
     };
 
     $scope.showMarker = function (marker) {
-      var params = {
-        markerTitle: marker.title,
-        markerLat: marker.lat,
-        markerLng: marker.lng
-      };
-
-      $state.go('app.map', params)
+      $state.go('app.map', { markerId: marker._id })
     };
 
     $scope.showMarkerOptions = function (marker) {

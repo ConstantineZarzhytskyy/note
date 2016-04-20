@@ -92,7 +92,7 @@
         })
         .state('app.map', {
           cache: false,
-          url: "/map?isNewMarker&isEditMarker&markerTitle&markerLat&markerLng&markerId",
+          url: "/map?markerId&isEditMarker",
           views: {
             'menuContent': {
               templateUrl: "./app/map/map.html",

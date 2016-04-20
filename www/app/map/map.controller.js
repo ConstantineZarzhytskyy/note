@@ -17,16 +17,25 @@
                          MarkersUtils) {
     var map = new google.maps.Map(document.getElementById('map'), {zoom: 16});
     var marker;
-    var isNewMarker = $stateParams.isNewMarker;
-    var isEditMarker = $stateParams.isEditMarker;
-    var showMarker = {
-      _id: $stateParams.markerId,
-      title: $stateParams.markerTitle,
-      lat: $stateParams.markerLat,
-      lng: $stateParams.markerLng
-    };
+    var showMarker = {};
+    var isNewMarker = !!($stateParams.markerId === undefined && $stateParams.isEditMarker);
+    var markerId = $stateParams.markerId;
+    var isEditMarker = ($stateParams.markerId && $stateParams.isEditMarker);
 
-    init();
+    getMarker(markerId);
+    function getMarker(markerId) {
+      if (!markerId) { showMarker = {}; return init(); }
+
+      MarkersUtils.getMarker(markerId)
+          .then(function (marker) {
+            showMarker = marker;
+
+            init();
+          }, function (err) {
+            console.log(err);
+          });
+    }
+
     function init() {
       navigator.geolocation.getCurrentPosition(function (pos) {
         var optionMap = {

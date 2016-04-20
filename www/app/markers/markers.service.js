@@ -15,6 +15,7 @@
                         server_host) {
     var service = {
       getMarkers: getMarkers,
+      getMarker: getMarker,
       createMarker: createMarker,
       updateMarker: updateMarker,
       removeMarker: removeMarker
@@ -24,6 +25,16 @@
       var defer = $q.defer();
 
       $http.get(server_host + 'api/markers')
+          .success(defer.resolve)
+          .error(defer.reject);
+
+      return defer.promise;
+    }
+
+    function getMarker(markerId) {
+      var defer = $q.defer();
+
+      $http.get(server_host + 'api/markers/' + markerId)
           .success(defer.resolve)
           .error(defer.reject);
 
