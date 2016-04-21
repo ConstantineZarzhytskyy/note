@@ -15,7 +15,9 @@
                           server_host) {
     var service = {
       getNotes: getNotes,
-      createNote: createNote
+      createNote: createNote,
+      removeNote: removeNote,
+      updateNote: updateNote
     };
 
     function getNotes() {
@@ -33,6 +35,27 @@
       var defer = $q.defer();
 
       $http.post(server_host + 'api/notes', { note: note })
+          .success(defer.resolve)
+          .error(defer.reject);
+
+      return defer.promise;
+    }
+
+
+    function removeNote(noteId) {
+      var defer = $q.defer();
+
+      $http.delete(server_host + 'api/notes/' + noteId)
+          .success(defer.resolve)
+          .error(defer.reject);
+
+      return defer.promise;
+    }
+
+    function updateNote(note) {
+      var defer = $q.defer();
+
+      $http.put(server_host + 'api/notes/' + note._id, { note: note })
           .success(defer.resolve)
           .error(defer.reject);
 

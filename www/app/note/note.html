@@ -24,7 +24,7 @@
          ng-if="note.dateNotification">
       <label class="item item-input">
         <span class="input-label">Date:</span>
-        {{ note.timeNotification | date: "HH:mm:ss" }} {{ note.dateNotification | date: "dd-mm-yyyy" }}
+        {{ note.timeNotification | date: "HH:mm" }} {{ note.dateNotification | date: "dd-mm-yyyy" }}
       </label>
     </div>
     <div class="card"
@@ -62,35 +62,3 @@
     </div>
   </ion-footer-bar>
 </ion-view>
-
-
-
-<script id="update-note-modal.html" type="text/ng-template">
-  <ion-modal-view>
-    <ion-header-bar>
-      <button class="button button-icon icon ion-ios-arrow-left"
-              ng-click="closeNoteDialog()"></button>
-      <div class="h1 title">Update note</div>
-    </ion-header-bar>
-    <ion-content>
-      <form>
-        <div class="list">
-          <label class="item item-input item-floating-label">
-            <span class="input-label">Title</span>
-            <input type="text" placeholder="ToDo"
-                   ng-model="note.title">
-          </label>
-          <label class="item item-input item-floating-label">
-            <span class="input-label">Description</span>
-            <input type="text" placeholder="Short description"
-                   ng-model="note.description">
-          </label>
-        </div>
-        <button class="button button-clear button-positive"
-                ng-click="saveUpdate(note)">
-          Save
-        </button>
-      </form>
-    </ion-content>
-  </ion-modal-view>
-</script>

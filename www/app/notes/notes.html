@@ -27,86 +27,13 @@
   </ion-content>
   <ion-footer-bar>
     <a class="button button-icon icon ion-ios-plus-empty"
-       ng-click="openNewNoteDialog()">
+       ng-click="createNote()">
       Create note
     </a>
   </ion-footer-bar>
 </ion-view>
 
 
-<script id="note-modal.html" type="text/ng-template">
-  <ion-modal-view>
-    <ion-header-bar>
-      <button class="button button-icon icon ion-ios-arrow-left"
-              ng-click="closeNewNoteDialog()"></button>
-      <div class="h1 title">New note</div>
-    </ion-header-bar>
-    <ion-content>
-      <form name="NewNoteForm">
-        <div class="list">
-          <label class="item item-input item-floating-label">
-            <span class="input-label">Title</span>
-            <input type="text" placeholder="ToDo"
-                   required
-                   ng-model="newNote.title">
-          </label>
-          <label class="item item-input item-floating-label">
-            <span class="input-label">Description</span>
-            <input type="text" placeholder="Short description"
-                   ng-model="newNote.description">
-          </label>
-          <label class="item item-input item-select">
-            <div class="input-label">
-              Folder:
-            </div>
-            <select ng-model="newNote.folderId" ng-click="saveNoteInfo(newNote.folderId, folder)">
-              <option ng-repeat="folder in folders"
-                      value="{{ folder._id }}">
-                {{ folder.title }}
-              </option>
-            </select>
-          </label>
-          <label class="item item-input item-select"
-                 on-hold="createMarker()">
-            <div class="input-label">
-              Marker:
-            </div>
-            <select ng-model="newNote.markerId" ng-click="saveNoteInfo(newNote.markerId, marker)">
-              <option ng-repeat="marker in markers"
-                      value="{{ marker._id }}">
-                {{ marker.title }}
-              </option>
-            </select>
-          </label>
-          <label class="item item-input">
-            <span class="input-label">Date</span>
-            <input type="date" ng-model="newNote.dateNotification">
-          </label>
-          <label class="item item-input"
-                 ng-click="setupTime()">
-            <span class="input-label">Time:</span>
-            {{ newNote.timeNotification | date:'HH:mm:ss' }}
-          </label>
-          <button class="button button-full button-positive"
-                  ng-click="applyPicture()">
-            Apply picture
-          </button>
-          <div class="list cart" ng-if="newNote.picture">
-            <div class="item item-image">
-              <img ng-src="{{ newNote.picture }}"/>
-            </div>
-          </div>
-        </div>
-        <button class="button button-clear button-positive"
-                type="submit"
-                ng-disabled="NewNoteForm.$invalid"
-                ng-click="saveNote(newNote)">
-          Save
-        </button>
-      </form>
-    </ion-content>
-  </ion-modal-view>
-</script>
 
 <script id="note-sort-modal.html" type="text/ng-template">
   <ion-modal-view>

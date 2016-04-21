@@ -20,6 +20,7 @@
 
         $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams) {
           $rootScope.$previousState = from;
+          $rootScope.$previousParams = fromParams;
         });
 
         $rootScope.$on('$cordovaLocalNotification:click',
@@ -61,6 +62,15 @@
             }
           }
         })
+        .state('app.newNote', {
+          url: "/newNote/:noteId",
+          views: {
+            'menuContent': {
+              templateUrl: "./app/note/newNote.html",
+              controller: 'NoteController'
+            }
+          }
+        })
         .state('app.folders', {
           cache: false,
           url: "/folders",
@@ -72,6 +82,7 @@
           }
         })
         .state('app.folder', {
+          cache: false,
           url: "/folders/:folderId?update",
           views: {
             'menuContent': {

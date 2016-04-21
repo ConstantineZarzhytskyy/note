@@ -1,0 +1,62 @@
+<ion-view>
+  <ion-nav-title>
+    <div ng-if="note.title">{{ note.title }}</div>
+    <div ng-if="!note.title">New note</div>
+  </ion-nav-title>
+  <ion-content>
+    <ion-content>
+      <form name="NoteForm">
+        <div class="list">
+          <label class="item item-input item-floating-label">
+            <span class="input-label">Title</span>
+            <input type="text" placeholder="ToDo"
+                   required
+                   ng-model="note.title">
+          </label>
+          <label class="item item-input item-floating-label">
+            <span class="input-label">Description</span>
+            <input type="text" placeholder="Short description"
+                   ng-model="note.description">
+          </label>
+          <label class="item item-input item-select">
+            <div class="input-label">
+              Folder:
+            </div>
+            <select ng-model="note.folderId" ng-options="folder._id as folder.title for folder in folders"></select>
+          </label>
+          <label class="item item-input item-select"
+                 on-hold="createMarker()">
+            <div class="input-label">
+              Marker:
+            </div>
+            <select ng-model="note.markerId" ng-options="marker._id as marker.title for marker in markers"></select>
+          </label>
+          <label class="item item-input">
+            <span class="input-label">Date</span>
+            <input type="date" ng-model="note.dateNotification">
+          </label>
+          <label class="item item-input"
+                 ng-click="setupTime()">
+            <span class="input-label">Time:</span>
+            {{ note.timeNotification | date:'HH:mm' }}
+          </label>
+          <button class="button button-full button-positive"
+                  ng-click="applyPicture()">
+            Apply picture
+          </button>
+          <div class="list cart" ng-if="note.picture">
+            <div class="item item-image">
+              <img ng-src="{{ note.picture }}"/>
+            </div>
+          </div>
+        </div>
+        <button class="button button-clear button-positive"
+                type="submit"
+                ng-disabled="NoteForm.$invalid"
+                ng-click="saveNote()">
+          Save
+        </button>
+      </form>
+    </ion-content>
+  </ion-content>
+</ion-view>
