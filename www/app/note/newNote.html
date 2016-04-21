@@ -1,7 +1,6 @@
 <ion-view>
   <ion-nav-title>
-    <div ng-if="note.title">{{ note.title }}</div>
-    <div ng-if="!note.title">New note</div>
+    {{ pageTitle }}
   </ion-nav-title>
   <ion-content>
     <ion-content>
@@ -22,14 +21,18 @@
             <div class="input-label">
               Folder:
             </div>
-            <select ng-model="note.folderId" ng-options="folder._id as folder.title for folder in folders"></select>
+            <select ng-model="note.folderId" ng-options="folder._id as folder.title for folder in folders">
+              <option value=''>- Please Choose -</option>
+            </select>
           </label>
           <label class="item item-input item-select"
                  on-hold="createMarker()">
             <div class="input-label">
               Marker:
             </div>
-            <select ng-model="note.markerId" ng-options="marker._id as marker.title for marker in markers"></select>
+            <select ng-model="note.markerId" ng-options="marker._id as marker.title for marker in markers">
+              <option value=''>- Please Choose -</option>
+            </select>
           </label>
           <label class="item item-input">
             <span class="input-label">Date</span>

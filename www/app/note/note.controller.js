@@ -18,14 +18,22 @@
                           $cordovaDialogs, $cordovaCamera, $cordovaImagePicker, $cordovaLocalNotification,
                           NoteUtils, MarkersUtils, FoldersUtils, FolderUtils, NotesUtils) {
     var noteId = $stateParams.noteId;
-    $scope.note = {};
+    $scope.pageTitle = "New note";
+    $scope.note = {
+      dateNotification: new Date(),
+      timeNotification: new Date()
+    };
 
     init();
     function init() {
       getFolders();
       getMarkers();
 
-      if ($state.is('app.newNote') && !noteId) return $scope.note = {};
+      if ($state.is('app.newNote') && !noteId)
+        return $scope.note = {
+        dateNotification: new Date(),
+        timeNotification: new Date()
+      };
 
       getNote(noteId);
     }
@@ -34,6 +42,7 @@
       NoteUtils.getNote(noteId)
           .then(function (note) {
             $scope.note = note;
+            $scope.pageTitle = note.title.toString();
 
             getMarker($scope.note.markerId);
             getFolder($scope.note.folderId);
@@ -128,6 +137,7 @@
       note.timeNotification = new Date(note.timeNotification);
       alarmTime.setHours(note.timeNotification.getHours());
       alarmTime.setMinutes(note.timeNotification.getMinutes());
+      alarmTime.setSeconds(0);
       console.log('time = ' + alarmTime);
 
       $cordovaLocalNotification.schedule({

@@ -54,7 +54,8 @@
           }
         })
         .state('app.note', {
-          url: "/notes/:noteId?update",
+          cache: false,
+          url: "/notes/:noteId",
           views: {
             'menuContent': {
               templateUrl: "./app/note/note.html",
