@@ -68,6 +68,10 @@
       getNotes();
     });
 
+    $rootScope.$on('userLogout', function () {
+      getNotes();
+    });
+
     $scope.changeSortParam = function (selectedSortParam) {
       $scope.sortParam = selectedSortParam;
 

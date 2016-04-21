@@ -52,7 +52,7 @@
     function userInfo() {
       var defer = $q.defer();
 
-      $http.get(server_host + 'api/auth/user')
+      $http.get(server_host + 'api/user/info')
           .success(defer.resolve)
           .error(defer.reject);
 

@@ -8,14 +8,29 @@
 
   MenuController.$inject = [
     '$state', '$scope', '$rootScope',
-    '$ionicModal', '$ionicLoading',
+    '$ionicModal', '$ionicLoading', '$ionicPlatform',
     'AuthUtils'
   ];
 
   function MenuController($state, $scope, $rootScope,
-                          $ionicModal, $ionicLoading,
+                          $ionicModal, $ionicLoading, $ionicPlatform,
                           AuthUtils) {
     $scope.loading = false;
+
+    $ionicPlatform.ready(function () {
+      getUserInfo();
+    });
+
+    function getUserInfo() {
+      AuthUtils.userInfo()
+          .then(function (user) {
+            if (!user.email) { return $scope.user = {}; }
+
+            $scope.user = user;
+          }, function (err) {
+            console.log(err);
+          });
+    }
 
     $ionicModal.fromTemplateUrl('./app/auth/auth.html', {
       scope: $scope,
@@ -43,6 +58,8 @@
             console.log('User ', $scope.user, 'login');
 
             $rootScope.$broadcast('loginInSystem', user);
+
+            getUserInfo();
 
             $scope.authModal.hide();
           }, function (err) {
@@ -85,6 +102,15 @@
 
     $scope.isLogged = function () {
       return AuthUtils.isLogged();
+    };
+
+    $scope.logout = function () {
+      AuthUtils.logout();
+      AuthUtils.authWithDeviceUUID($rootScope.device)
+          .then(function () {
+            $scope.user = {};
+            $rootScope.$broadcast('userLogout');
+          });
     };
   }
 
