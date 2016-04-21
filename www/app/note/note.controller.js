@@ -221,11 +221,10 @@
               console.log(err);
             })
       } else {
+        console.log(2);
         NotesUtils.createNote($scope.note)
             .then(function (newNote) {
               setupNotification(newNote);
-
-              $state.go('app.notes');
             }, function (err) {
               console.log(err);
             });

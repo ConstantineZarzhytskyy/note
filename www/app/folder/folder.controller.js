@@ -96,6 +96,10 @@
                 });
 
           });
-    }
+    };
+
+    $scope.createNote = function () {
+      $state.go('app.newNote');
+    };
   }
 })();
