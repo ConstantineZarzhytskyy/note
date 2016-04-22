@@ -24,7 +24,8 @@
          ng-if="note.dateNotification">
       <label class="item item-input">
         <span class="input-label">Date:</span>
-        {{ note.timeNotification | date: "HH:mm" }} {{ note.dateNotification | date: "dd-mm-yyyy" }}
+        {{ note.timeNotification | date: "HH:mm" }} {{ note.dateNotification | date: "dd-mm-yyyy" }} <br/>
+        ({{ note.intervalNotification }})
       </label>
     </div>
     <div class="card"

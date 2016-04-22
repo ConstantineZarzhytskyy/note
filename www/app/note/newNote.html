@@ -43,6 +43,12 @@
             <span class="input-label">Time:</span>
             {{ note.timeNotification | date:'HH:mm' }}
           </label>
+          <label class="item item-input item-select">
+            <div class="input-label">Interval:</div>
+            <select ng-model="note.intervalNotification" ng-options="interval._id as interval.title for interval in intervalNotification">
+              <option value=''>- Please Choose -</option>
+            </select>
+          </label>
           <button class="button button-full button-positive"
                   ng-click="applyPicture()">
             Apply picture

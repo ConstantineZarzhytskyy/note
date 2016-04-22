@@ -16,8 +16,28 @@
   function NoteController($scope, $stateParams, $state, $rootScope,
                           ionicTimePicker, $ionicActionSheet,
                           $cordovaDialogs, $cordovaCamera, $cordovaImagePicker, $cordovaLocalNotification,
-                          NoteUtils, MarkersUtils, FoldersUtils, FolderUtils, NotesUtils) {
+  NoteUtils, MarkersUtils, FoldersUtils, FolderUtils, NotesUtils) {
     var noteId = $stateParams.noteId;
+    $scope.intervalNotification = [{
+      _id: 0,
+      title: 'Without notification'
+    }, {
+      _id: 1,
+      title: '1 hours',
+      data: 'hour'
+    }, {
+      _id: 2,
+      title: '1 day',
+      data: 'day'
+    }, {
+      _id: 4,
+      title: '1 week',
+      data: 'week'
+    }, {
+      _id: 5,
+      title: '1 minute',
+      data: 'minute'
+    }];
     $scope.pageTitle = "New note";
     $scope.note = {
       dateNotification: new Date(),
@@ -42,6 +62,10 @@
       NoteUtils.getNote(noteId)
           .then(function (note) {
             $scope.note = note;
+            for(var i in $scope.intervalNotification) {
+              if ($scope.intervalNotification[i]._id == note.intervalNotification)
+                $scope.note.intervalNotification = $scope.intervalNotification[i].title;
+            }
             $scope.pageTitle = note.title.toString();
 
             getMarker($scope.note.markerId);
@@ -131,18 +155,35 @@
     }
 
     function setupNotification(note) {
-      //if (!note.intervalNotification) { return $state.go($rootScope.$previousState, $rootScope.$previousParams); }
+      if (note.intervalNotification == 0) {
+        $cordovaLocalNotification.isPresent(note._id).then(function (present) {
+          if (present) {
+            console.log('remove notification');
+            $cordovaLocalNotification.cancel(note._id); }
+        });
+
+        return $state.go($rootScope.$previousState, $rootScope.$previousParams);
+      }
 
       var alarmTime = new Date(note.dateNotification);
       note.timeNotification = new Date(note.timeNotification);
       alarmTime.setHours(note.timeNotification.getHours());
       alarmTime.setMinutes(note.timeNotification.getMinutes());
       alarmTime.setSeconds(0);
+
+      var everyResult;
+      for(var i in $scope.intervalNotification) {
+        if ($scope.intervalNotification[i]._id == note.intervalNotification)
+          everyResult = $scope.intervalNotification[i].data;
+      }
+      console.log('qw' + note.intervalNotification);
       console.log('time = ' + alarmTime);
+      console.log('everyResult = ' + everyResult);
 
       $cordovaLocalNotification.schedule({
         id: note._id,
         date: alarmTime,
+        every: everyResult,
         message: note.description,
         title: note.title,
         autoCancel: true,
@@ -159,13 +200,16 @@
           .then(function(buttonIndex) {
             if (buttonIndex != 1) { return; }
 
+            $cordovaLocalNotification.isPresent($scope.note._id).then(function (present) {
+              if (present) { $cordovaLocalNotification.cancel($scope.note._id); }
+            });
+
             NotesUtils.removeNote($scope.note._id)
                 .then(function (ok) {
                   $state.go($rootScope.$previousState, $rootScope.$previousParams);
                 }, function (err) {
                   console.log(err);
                 });
-
           });
     };
 
@@ -222,9 +266,11 @@
       console.log($scope.note);
 
       if (noteId) {
-        console.log(1);
+        console.log('update note');
         NotesUtils.updateNote($scope.note)
             .then(function (ok) {
+              setupNotification($scope.note);
+
               $state.go($rootScope.$previousState, $rootScope.$previousParams);
             }, function (err) {
               console.log(err);
