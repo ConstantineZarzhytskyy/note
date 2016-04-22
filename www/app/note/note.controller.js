@@ -91,7 +91,7 @@
 
     function createPictureWithCamera() {
       var options = {
-        destinationType: Camera.DestinationType.FILE_URI,
+        destinationType: Camera.DestinationType.DATA_URL,
         sourceType: Camera.PictureSourceType.CAMERA,
         saveToPhotoAlbum: true
       };
@@ -146,7 +146,6 @@
         message: note.description,
         title: note.title,
         autoCancel: true,
-        sound: null,
         data: {
           noteId: note._id.toString()
         }

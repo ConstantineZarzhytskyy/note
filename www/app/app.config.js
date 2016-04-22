@@ -7,7 +7,7 @@
       .config(configSatellizer)
       .config(configTimePicker)
       .constant('server_host', 'https://ionic-note.herokuapp.com/')
-      .run(function ($ionicPlatform, $rootScope) {
+      .run(function ($ionicPlatform, $rootScope, $state) {
         $ionicPlatform.ready(function () {
           if (window.cordova && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -25,7 +25,8 @@
 
         $rootScope.$on('$cordovaLocalNotification:click',
             function (event, notification, state) {
-              $rootScope.notification = notification.data;
+              $rootScope.notification = angular.fromJson(notification.data);
+              $state.go('app.note', { noteId: $rootScope.notification.noteId });
             });
       });
 
