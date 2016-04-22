@@ -11,6 +11,7 @@
   display: inline-flex;
   background-color: rgb(245, 245, 245);
   border-top-width: 0;
+  max-width: 20px;
 }
 
 .empty-list {
