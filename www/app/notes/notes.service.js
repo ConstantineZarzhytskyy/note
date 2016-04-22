@@ -17,7 +17,8 @@
       getNotes: getNotes,
       createNote: createNote,
       removeNote: removeNote,
-      updateNote: updateNote
+      updateNote: updateNote,
+      changeDone: changeDone
     };
 
     function getNotes() {
@@ -56,6 +57,16 @@
       var defer = $q.defer();
 
       $http.put(server_host + 'api/notes/' + note._id, { note: note })
+          .success(defer.resolve)
+          .error(defer.reject);
+
+      return defer.promise;
+    }
+
+    function changeDone(note) {
+      var defer = $q.defer();
+
+      $http.post(server_host + 'api/notes/' + note._id, { note: note })
           .success(defer.resolve)
           .error(defer.reject);
 
