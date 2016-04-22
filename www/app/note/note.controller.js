@@ -214,7 +214,7 @@
     };
 
     $scope.changeDone = function () {
-      NoteUtils.updateNote($scope.note)
+      NotesUtils.updateNote($scope.note)
           .then(function (ok) {
 
           }, function (err) {

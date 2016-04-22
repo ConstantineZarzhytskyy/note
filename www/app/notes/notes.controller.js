@@ -132,7 +132,7 @@
     $scope.changeDone = function (note) {
       note.done = !!note.done;
 
-      NotesUtils.updateNote(note)
+      NotesUtils.changeDone(note)
           .then(function (ok) {
           }, function (err) {
             console.log(err);
