@@ -162,7 +162,10 @@
             $cordovaLocalNotification.cancel(note._id); }
         });
 
-        return $state.go($rootScope.$previousState, $rootScope.$previousParams);
+        console.log('wereCreateNote = ' + $rootScope.wereCreateNote);
+        console.log('wereCreateNoteParams = ' + $rootScope.wereCreateNoteParams);
+
+        return $state.go($rootScope.wereCreateNote, $rootScope.wereCreateNoteParams);
       }
 
       var alarmTime = new Date(note.dateNotification);
@@ -191,7 +194,7 @@
           noteId: note._id.toString()
         }
       }).then(function () {
-        $state.go($rootScope.$previousState, $rootScope.$previousParams);
+        $state.go($rootScope.wereCreateNote, $rootScope.wereCreateNoteParams);
       });
     }
 
@@ -270,8 +273,6 @@
         NotesUtils.updateNote($scope.note)
             .then(function (ok) {
               setupNotification($scope.note);
-
-              $state.go($rootScope.$previousState, $rootScope.$previousParams);
             }, function (err) {
               console.log(err);
             })
@@ -287,6 +288,11 @@
     };
 
     $scope.updateNote = function () {
+      $rootScope.wereCreateNote = 'app.note';
+      $rootScope.wereCreateNoteParams = {
+        noteId: noteId
+      };
+
       $state.go('app.newNote', { noteId: $scope.note._id });
     };
 

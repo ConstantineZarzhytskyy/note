@@ -73,7 +73,7 @@
           .then(function (ok) {
             $rootScope.$broadcast('newMarkerCreated');
 
-            $state.go($rootScope.$previousState);
+            $state.go($rootScope.$previousState, $rootScope.$previousParams);
           }, function (err) {
             console.log(err);
           })

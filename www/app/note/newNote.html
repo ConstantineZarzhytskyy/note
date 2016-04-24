@@ -45,8 +45,8 @@
           </label>
           <label class="item item-input item-select">
             <div class="input-label">Interval:</div>
-            <select ng-model="note.intervalNotification" ng-options="interval._id as interval.title for interval in intervalNotification">
-              <option value=''>- Please Choose -</option>
+            <select ng-model="note.intervalNotification" ng-options="interval._id as interval.title for interval in intervalNotification"
+                    ng-required="true">
             </select>
           </label>
           <button class="button button-full button-positive"

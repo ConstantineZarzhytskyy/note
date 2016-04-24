@@ -6,12 +6,12 @@
       .controller('FolderController', FolderController);
 
   FolderController.$inject = [
-    '$scope', '$state', '$stateParams',
+    '$scope', '$state', '$stateParams', '$rootScope',
     '$ionicModal', '$cordovaDialogs', '$ionicLoading',
     'FolderUtils'
   ];
 
-  function FolderController($scope, $state, $stateParams,
+  function FolderController($scope, $state, $stateParams, $rootScope,
                              $ionicModal, $cordovaDialogs, $ionicLoading,
                              FolderUtils) {
     var folderId = $stateParams.folderId;
@@ -99,6 +99,11 @@
     };
 
     $scope.createNote = function () {
+      $rootScope.wereCreateNote = 'app.folder';
+      $rootScope.wereCreateNoteParams = {
+        folderId: folderId
+      };
+
       $state.go('app.newNote');
     };
   }

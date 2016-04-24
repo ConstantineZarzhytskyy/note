@@ -126,6 +126,9 @@
     };
 
     $scope.createNote = function () {
+      $rootScope.wereCreateNote = 'app.notes';
+      $rootScope.wereCreateNoteParams = {};
+
       $state.go('app.newNote');
     };
 
