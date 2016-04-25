@@ -1,0 +1,65 @@
+<ion-view>
+  <ion-nav-title>{{ note.title }}</ion-nav-title>
+  <ion-content>
+    <div class="card">
+      <div class="item item-text-wrap">
+        {{ note.description }}
+      </div>
+    </div>
+    <div class="card">
+      <div class="item item-toggle">
+        Done:
+        <label class="toggle">
+          <input type="checkbox"
+                 ng-model="note.done"
+                 ng-change="changeDone(note)">
+
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label>
+      </div>
+    </div>
+    <div class="card"
+         ng-if="note.dateNotification">
+      <label class="item item-input">
+        <span class="input-label">Date:</span>
+        {{ note.timeNotification | date: "HH:mm" }} {{ note.dateNotification | date: "dd-mm-yyyy" }} <br/>
+        ({{ note.intervalNotification }})
+      </label>
+    </div>
+    <div class="card"
+         ng-if="note.markerId"
+         ng-click="showMarker()">
+      <label class="item item-input">
+        <span class="input-label">Marker:</span>
+        {{ marker.title }}
+      </label>
+    </div>
+    <div class="card"
+         ng-if="note.folderId"
+         ng-click="showFolder()">
+      <label class="item item-input">
+        <span class="input-label">Folder:</span>
+        {{ folder.title }}
+      </label>
+    </div>
+    <div class="list cart" ng-if="note.picture">
+      <div class="item item-image">
+        <img ng-src="{{ note.picture }}"/>
+      </div>
+    </div>
+  </ion-content>
+  <ion-footer-bar>
+    <div class="tabs tabs-icon-top padding-top">
+      <a class="tab-item"
+         ng-click="updateNote()">
+        <i class="icon ion-edit"></i>
+      </a>
+      <a class="tab-item"
+         ng-click="removeNote()">
+        <i class="icon ion-trash-b"></i>
+      </a>
+    </div>
+  </ion-footer-bar>
+</ion-view>

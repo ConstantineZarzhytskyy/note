@@ -1,0 +1,55 @@
+<ion-view view-title="Notes">
+  <ion-content>
+    <ion-refresher pulling-text="Pull To Refresh" on-refresh="getNotes()"></ion-refresher>
+
+    <div class="empty-list"
+         ng-if="!notes.length">
+      Note list is empty
+    </div>
+    <div class="card"
+         ng-repeat="note in notes | filter: search.title | orderBy: sortParam"
+         on-hold="showOptionsForNote(note)">
+      <div class="item item-divider bar bar-header">
+        <span class="title"
+              ng-click="getNoteInfo(note)">
+          {{ note.title }}
+        </span>
+        <ion-checkbox class="note-header-done"
+                      style="color: black"
+                      ng-model="note.done"
+                      ng-click="changeDone(note)">
+        </ion-checkbox>
+      </div>
+      <div class="item item-text-wrap"
+           ng-click="getNoteInfo(note)">
+        {{ note.description }}
+      </div>
+    </div>
+  </ion-content>
+  <ion-footer-bar>
+    <a class="button button-icon icon ion-ios-plus-empty"
+       ng-click="createNote()">
+      Create note
+    </a>
+  </ion-footer-bar>
+</ion-view>
+
+
+
+<script id="note-sort-modal.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <button class="button button-icon icon ion-ios-arrow-left"
+              ng-click="closeSortNoteDialog()"></button>
+      <div class="h1 title">Sort notes</div>
+    </ion-header-bar>
+    <ion-content>
+      <ion-list ng-click="changeSortParam(sortParam)">
+        <ion-radio ng-model="sortParam" ng-value="'dateCreate'">Newest notes</ion-radio>
+        <ion-radio ng-model="sortParam" ng-value="'-dateCreate'">Oldest notes</ion-radio>
+        <ion-radio ng-model="sortParam" ng-value="'title'">Asc title</ion-radio>
+        <ion-radio ng-model="sortParam" ng-value="'-title'">Desc title</ion-radio>
+      </ion-list>
+    </ion-content>
+  </ion-modal-view>
+</script>

@@ -1,0 +1,54 @@
+<ion-view view-title="Folders">
+  <ion-content>
+    <div class="empty-list"
+         ng-if="!folders.length">
+      Folder list is empty
+    </div>
+    <div class="card"
+         ng-if="folders.length">
+      <div class="item item-text-wrap bar bar-header"
+           ng-repeat="folder in folders | filter: search.title"
+           ng-click="getFolderInfo(folder)"
+           on-hold="showFolderOptions(folder)">
+        <div class="title">{{ folder.title }}</div>
+        <button class="button button-clear button-positive">{{ folder.countDone }}/{{ folder.notes.length }}</button>
+      </div>
+    </div>
+  </ion-content>
+  <ion-footer-bar>
+    <a class="button button-icon icon ion-ios-plus-empty"
+       ng-click="openFolderDialog()">
+      Create folder
+    </a>
+  </ion-footer-bar>
+</ion-view>
+
+
+<script id="folder-modal.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <button class="button button-icon icon ion-ios-arrow-left"
+              ng-click="closeFolderDialog()"></button>
+      <div class="h1 title">New folder</div>
+      </div>
+    </ion-header-bar>
+    <ion-content>
+      <form name="newFolderForm">
+        <div class="list">
+          <label class="item item-input item-floating-label">
+            <span class="input-label">Title</span>
+            <input type="text" placeholder="Task folder"
+                   required
+                   ng-model="newFolder.title">
+          </label>
+        </div>
+        <button class="button button-clear button-positive"
+                type="submit"
+                ng-disabled="newFolderForm.$invalid"
+                ng-click="saveFolder(newFolder)">
+          Save
+        </button>
+      </form>
+    </ion-content>
+  </ion-modal-view>
+</script>

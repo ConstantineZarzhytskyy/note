@@ -1,0 +1,22 @@
+<ion-view view-title="Markers">
+  <ion-content>
+    <ion-refresher pulling-text="Pull To Refresh" on-refresh="getMarkers()"></ion-refresher>
+    <div class="empty-list"
+        ng-if="!markers.length">
+      Marker list is empty
+    </div>
+    <ion-list>
+      <ion-item ng-repeat="marker in markers | filter: search.title"
+                ng-click="showMarker(marker)"
+                on-hold="showMarkerOptions(marker)">
+        {{ marker.title }}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+  <ion-footer-bar>
+    <a class="button button-icon icon ion-ios-plus-empty"
+       ng-click="creteMarker()">
+      Create marker
+    </a>
+  </ion-footer-bar>
+</ion-view>
